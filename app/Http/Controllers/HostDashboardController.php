@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tournament;
 use App\TournamentSubcategory;
-use Auth;
+//use Auth;
 
 class HostDashboardController extends Controller
 {
@@ -20,18 +20,19 @@ class HostDashboardController extends Controller
     		'location' => 'required',
     		'startdate' => 'required',
     		'subcategories' => 'required|array|between:1,10',
-    		'dateend' => 'required_without:onedaytournament'
+    		'enddate' => 'required_without:onedaytournament|sometimes|after_or_equal:startdate',
     	],[
     		'name.required' => 'Please enter a tournament name.',
     		'location.required' => 'Please enter a tournament location.',
     		'startdate.required' => 'Please specify tournament date.',
     		'subcategories.required' => 'Please check tournament sub-categories.',
-    		'dateend.required_without' => 'Please specify tournament duration.',
+    		'enddate.required_without' => 'Please specify tournament duration.',
+    		'enddate.after_or_equal' => 'Make sure end date is correct.'
     	]);
 
     	$tournament = new Tournament;
 
-    	$current_id = Auth::user()->id;
+    	$current_id = auth()->user()->id;
 
     	$tournament->name = $request->name;
     	$tournament->location = $request->location;

@@ -8,6 +8,5 @@
 		@include('host.dashboard.showOngoingTournaments')
 		@include('host.dashboard.showTournamentsHistory')
 	</div>
-
 @endsection
 
