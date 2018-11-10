@@ -15,6 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::group(['middleware' => 'host'], function() {
+	Route::get('/host', 'HostDashboardController@getTournaments');
+});
+
+Route::group(['middleware' => 'participant'], function() {
+	Route::get('/participant', 'ParticipantDashboardController@getTournaments');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
