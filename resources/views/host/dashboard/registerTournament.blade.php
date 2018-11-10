@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="col-sm-5">
-				<label for="name">Sub-categories</label>
+				<label for="name">Divisions</label>
 				@for($x = 10; $x <= 18; $x++)
 					<div class="checkbox">
 							<label><input style="margin-right:10px;" type="checkbox" id="under{{$x}}" value="U{{$x}}" name="subcategories[]">Under {{$x}}</label>

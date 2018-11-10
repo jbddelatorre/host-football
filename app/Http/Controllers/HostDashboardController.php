@@ -10,7 +10,25 @@ use App\TournamentSubcategory;
 class HostDashboardController extends Controller
 {
     function getTournaments() {
-    	return view('host.dashboard.dashboard');
+    	$current_id = auth()->user()->id;
+    	$tournaments = Tournament::where('user_id', $current_id)->where('status', 1)->get();
+
+    	$tournament_ids = [];
+
+    	foreach($tournaments as $t) {
+    		$subcats = [];
+    		$subcategory = TournamentSubcategory::where('tournament_id', $t->id)->get();
+
+    		foreach($subcategory as $sc) {
+    			array_push($subcats, $sc->subcategory_id);
+    		}
+
+    		$tournament_ids[$t->id] = $subcats;
+    		//$new_entry = array($t->id => $subcats);
+    		//array_push($tournament_ids, $new_entry);
+    	}
+
+    	return view('host.dashboard.dashboard', compact('tournaments', 'tournament_ids'));
     }
 
     function registerTournament(Request $request) {
@@ -25,7 +43,7 @@ class HostDashboardController extends Controller
     		'name.required' => 'Please enter a tournament name.',
     		'location.required' => 'Please enter a tournament location.',
     		'startdate.required' => 'Please specify tournament date.',
-    		'subcategories.required' => 'Please check tournament sub-categories.',
+    		'subcategories.required' => 'Please check tournament division.',
     		'enddate.required_without' => 'Please specify tournament duration.',
     		'enddate.after_or_equal' => 'Make sure end date is correct.'
     	]);
