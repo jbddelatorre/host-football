@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tournament;
 use App\TournamentSubcategory;
-//use Auth;
 
 class HostDashboardController extends Controller
 {
     function getTournaments() {
     	$current_id = auth()->user()->id;
     	$tournaments = Tournament::where('user_id', $current_id)->where('status', 1)->get();
+
+    	$ongoing = Tournament::where('user_id', $current_id)->where('status', 2)->get();
+
+    	$completed = Tournament::where('user_id', $current_id)->where('status', 3)->get();
 
     	$tournament_ids = [];
 
@@ -24,11 +27,9 @@ class HostDashboardController extends Controller
     		}
 
     		$tournament_ids[$t->id] = $subcats;
-    		//$new_entry = array($t->id => $subcats);
-    		//array_push($tournament_ids, $new_entry);
     	}
 
-    	return view('host.dashboard.dashboard', compact('tournaments', 'tournament_ids'));
+    	return view('host.dashboard.dashboard', compact('tournaments', 'tournament_ids', 'ongoing', 'completed'));
     }
 
     function registerTournament(Request $request) {

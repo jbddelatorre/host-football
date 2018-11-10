@@ -5,15 +5,18 @@
 		@foreach($tournaments as $t)
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
-					<h3 class="card-title">Tournament Name: {{ $t->name }}</h3>
-					<h4 class="card-subtitle">Location: {{ $t->location }}</h4>
-					<h6 class="card-text">Date: 
-						@if($t->date_start == $t->date_end)
-							{{$t->date_start}}
-						@else
-							{{$t->date_start}} to {{ $t->date_end }}
-						@endif
-					</h6>
+					<h6>Tournament Name</h6>
+							<p> {{ $t->name }}</p>
+							<h6>Location:</h6>
+							<p> {{ $t->location }} </p>
+							<h6>Date:</h6>
+							<p>
+								@if($t->date_start == $t->date_end)
+									{{$t->date_start}}
+								@else
+									{{$t->date_start}} to {{ $t->date_end }}
+								@endif
+							</p>
 					
 					<div class="row">
 						@foreach($tournament_ids[$t->id] as $subcat)

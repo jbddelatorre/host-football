@@ -18,7 +18,7 @@ class TournamentStatusSeeder extends Seeder
 	        	'status_type' => "Ongoing" 
 	        ]);
         DB::table('tournament_statuses')->insert([
-	        	'status_type' => "Closed" 
+	        	'status_type' => "Completed" 
 	        ]);
     }
 }
