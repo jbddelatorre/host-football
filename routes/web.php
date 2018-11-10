@@ -17,11 +17,16 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => 'host'], function() {
+
 	Route::get('/host', 'HostDashboardController@getTournaments');
+	Route::post('/host/registertournament', 'HostDashboardController@registerTournament');
+
 });
 
 Route::group(['middleware' => 'participant'], function() {
+
 	Route::get('/participant', 'ParticipantDashboardController@getTournaments');
+
 });
 
 Auth::routes();
