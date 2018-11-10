@@ -15,6 +15,7 @@ class CreateFixtureStatuses extends Migration
     {
         Schema::create('fixture_statuses', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('fixture_status');
             $table->timestamps();
         });
     }

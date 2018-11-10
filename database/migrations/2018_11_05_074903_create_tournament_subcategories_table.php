@@ -15,6 +15,8 @@ class CreateTournamentSubcategoriesTable extends Migration
     {
         Schema::create('tournament_subcategories', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tournament_id')->unsigned();
+            $table->string('subcategory_id');
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ class CreateTournamentStatusesTable extends Migration
     {
         Schema::create('tournament_statuses', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('status_type');
             $table->timestamps();
         });
     }
