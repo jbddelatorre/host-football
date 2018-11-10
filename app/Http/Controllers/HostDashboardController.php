@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tournament;
 use App\TournamentSubcategory;
+use Auth;
 
 class HostDashboardController extends Controller
 {
     function getTournaments() {
-    	return view('host.dashboard');
+    	return view('host.dashboard.dashboard');
     }
 
     function registerTournament(Request $request) {
@@ -30,8 +31,11 @@ class HostDashboardController extends Controller
 
     	$tournament = new Tournament;
 
+    	$current_id = Auth::user()->id;
+
     	$tournament->name = $request->name;
     	$tournament->location = $request->location;
+    	$tournament->user_id = $current_id;
     	$tournament->date_start = $request->startdate;
 
     	if($request->onedaytournament) {
