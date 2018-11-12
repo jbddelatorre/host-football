@@ -24,8 +24,8 @@ Route::group(['middleware' => 'host'], function() {
 });
 
 Route::group(['middleware' => 'participant'], function() {
-
 	Route::get('/participant', 'ParticipantDashboardController@getTournaments');
+	Route::get('/participant/registration/{id}', 'ParticipantDashboardController@registrationPage');
 
 });
 

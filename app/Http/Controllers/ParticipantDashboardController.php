@@ -15,8 +15,6 @@ class ParticipantDashboardController extends Controller
 
     	$my_tournaments = Tournament::where('status', 1)->where('user_id', $current_id)->get();
 
-    	
-
     	function getSubcats($tournaments) {
     		$tournament_ids = [];
 
@@ -30,7 +28,6 @@ class ParticipantDashboardController extends Controller
 
 	    		$tournament_ids[$t->id] = $subcats;
 	    	}
-
 	    	return $tournament_ids;
     	}
 
@@ -38,5 +35,11 @@ class ParticipantDashboardController extends Controller
     	$myTournament_ids = getSubcats($my_tournaments);
 
     	return view('participant.dashboard.dashboard', compact('tournaments', 'findTournament_ids', 'my_tournaments', 'myTournament_ids'));
+    }
+
+    function registrationPage($id) {
+    	$tournament = Tournament::find($id);
+    	$subcats = TournamentSubcategory::where('tournament_id', $id)->get();
+    	return view('participant.registration.registration', compact('tournament', 'subcats'));
     }
 }

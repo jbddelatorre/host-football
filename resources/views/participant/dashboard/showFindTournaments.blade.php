@@ -26,7 +26,9 @@
 						</div>
 						<div class="col-sm-3 ">
 							<div class="row justify-content-center">
-								<button class="btn btn-primary">Register</button>
+								<form method="GET" action="/participant/registration/{{$t->id}}">
+									<button type="submit" class="btn btn-primary">Register</button>
+								</form>
 							</div>
 						</div>
 					</div>
