@@ -3,16 +3,14 @@
 @section('content')
 
 	<div class="container">
-		@include('host.dashboard.registerTournament')
-		@include('host.dashboard.showRegisteredTournaments')
-		@include('host.dashboard.showOngoingTournaments')
-		@include('host.dashboard.showTournamentsHistory')
+		@include('participant.dashboard.showFindTournaments')
+		@include('participant.dashboard.showRegisteredTournaments')
 	</div>
+
 @endsection
 
 <script>
-
-window.onload = () => {
+	window.onload = () => {
 	//Convert subcategories to labelled divisions
 	const convertSubcategory = (id) => {
 		switch(id) {
@@ -51,27 +49,10 @@ window.onload = () => {
 		}
 	}
 
-	const subcatDom = document.querySelectorAll('div.subcat-content');
+	const subcatDom = document.querySelectorAll('li.subcat-content');
 	subcatDom.forEach((s) => {
 		s.textContent = convertSubcategory(s.textContent.trim());
-	})
-
-	
-	// Disables end-date when one-day tournament is checked
-	const sameDayCheckbox = document.querySelector('#sameDayCheckbox')
-	const endDateInput = document.querySelector('#enddate')
-	
-	
-	sameDayCheckbox.addEventListener("click", (e) => {
-		sameDayCheckbox.value = 1 - e.target.value;
-
-		if (sameDayCheckbox.value == 1) {
-			endDateInput.setAttribute("disabled", true)
-		} else {
-			endDateInput.removeAttribute("disabled", '')
-		}
 	})
 }
 
 </script>
-

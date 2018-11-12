@@ -44,22 +44,3 @@
 			</div>
 		</div>
 	</form>
-
-<script>
-	window.onload = () => {
-
-		const sameDayCheckbox = document.querySelector('#sameDayCheckbox')
-		const endDateInput = document.querySelector('#enddate')
-
-		// Disables end-date when one-day tournament is checked
-		sameDayCheckbox.addEventListener("click", (e) => {
-			sameDayCheckbox.value = 1 - e.target.value;
-
-			if (sameDayCheckbox.value == 1) {
-				endDateInput.setAttribute("disabled", true)
-			} else {
-				endDateInput.removeAttribute("disabled", '')
-			}
-		})
-	}
-</script>
