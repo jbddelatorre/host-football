@@ -1,7 +1,7 @@
 <h2>My Registered Tournaments</h2>
 <div class="row">
 	<div class="col sm-12">
-		@foreach($tournaments as $t)
+		@foreach($my_tournaments as $t)
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
 					<div class="row align-items-center">

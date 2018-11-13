@@ -45,8 +45,11 @@
 @section('content')
 	<div class="container">
 		<h2>Tournament Registration</h2>
-		<form action="">
+		@include('inc.messages')
+		<form action="/participant/registration/{{$id}}" method="POST">
+			@csrf
 		<div class="row">
+			<input type="text" hidden name="tournamentId" value="{{$id}}">
 			<div class="col sm-12">
 				<div class="card bg-faded my-3 pt-2">
 					<div class="card-body">
@@ -75,12 +78,16 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="teamName" name="teamname">
+									<input type="text" class="form-control {{$errors->has('teamname') ? 'is-invalid' : ''}}" id="teamName" name="teamname">
+									<div class="invalid-feedback">
+										{{$errors->first('teamname')}}
+									</div>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-
+					
 					<div class="card-body" id="playerFillout">
 						<h6>Team Members</h6>
 						<div class="form-group">
@@ -93,13 +100,39 @@
 								</div>
 							</div>
 						</div>
+						
+						@if($errors->has('players'))
+							<div class="alert alert-danger">
+								{{$errors->first('players')}}
+							</div>
+						@endif
+
 						{{-- SCRIPT INSERT PLAYER FORM --}}
+						@for($i = 0; $i < 8; $i++)
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-7">
+										<input type="text" class="players-name form-control {{$errors->has('players.'.$i.'.name') ? 'is-invalid':''}}" name="players[{{$i}}][name]" placeholder="Enter Full Name">
+										<div class="invalid-feedback">
+											{{$errors->first('players.'.$i.'.name')}}
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<input type="date" id="date{{$i}}" class="players-date form-control {{$errors->has('players.'.$i.'.dob') ? 'is-invalid':''}}" name="players[{{$i}}][dob]">
+										<div class="invalid-feedback">
+											{{$errors->first('players.'.$i.'.dob')}}
+										</div>
+									</div>
+								</div>
+							</div> 
+						@endfor
+
 					</div>
 			
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button id="formAdd" class="btn btn-outline-primary mx-2">Add</button>
-							<button id="formRemove" class="btn btn-outline-danger mx-2">Remove</button>
+							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add</button>
+							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Remove</button>
 						</div>
 					</div>
 						
@@ -118,10 +151,11 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-2">
-									<label for="coachContact">Mobile Number</label>
+									<label for="coachMobile">Mobile Number</label>
 								</div>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="coachContact" name="coachcontact">
+									<input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" class="form-control" id="coachMobile" name="coachmobile">
+									<small class="form-text text-muted">Format: 0917-123-4567</small>
 								</div>
 							</div>
 						</div>	
@@ -130,7 +164,7 @@
 
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button class="btn btn-primary">Complete Registration</button>
+							<button class="btn btn-primary" type="submit">Complete Registration</button>
 						</div>
 					</div>
 
@@ -194,25 +228,40 @@
 
 	//Manipulate Player form sheet
 
-	const addPlayerForm = (number) => {
-		$('#playerFillout').append(`
-			<div class="form-group">
-				<div class="row">
-					<div class="col-sm-7">
-						<input type="text" class="form-control" name="players[player${number}][name]" placeholder="Enter Full Name">
-					</div>
-					<div class="col-sm-5">
-						<input type="date" class="form-control" name="players[player${number}][dob]">
-					</div>
-				</div>
-			</div>
-		`)
+	// const addPlayerForm = (number) => {
+	// 	$('#playerFillout').append(`
+			
+	// 	`)
+	// }
+
+	// for(let i = 0; i < 8; i++) {
+	// 	addPlayerForm(i);
+	// }
+
+
+	//Add/Remove players Form
+
+	const buttons = document.querySelectorAll('.button-player-fillout')
+
+		//Remove default
+	buttons.forEach((b) => {
+		b.addEventListener("click", (e) => {
+			e.preventDefault();
+		})
+	})
+
+	//Generate random dates
+	const dateInputs = document.querySelectorAll('.players-date')
+	const nameInputs = document.querySelectorAll('.players-name')
+
+	const sample = () => {
+		for(let i = 0; i < dateInputs.length; i++) {
+			dateInputs[i].value = '1990-12-12'
+			nameInputs[i].value = 'Sample name'
+		}
 	}
 
-	for(let i = 1; i <= 8; i++) {
-		addPlayerForm(i);
-	}
-
+	sample()
 }
 
 </script>
