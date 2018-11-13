@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Tournament;
 use App\ParticipantTournament;
 use App\TournamentSubcategory;
@@ -16,7 +17,10 @@ class ParticipantDashboardController extends Controller
 
     	$tournaments = Tournament::where('status', 1)->where('user_id', '!=', $current_id)->get();
 
-    	$my_tournaments = Tournament::where('status', 1)->where('user_id', $current_id)->get();
+        $my_tournaments = Tournament::where('status', 1)->whereHas('users', function($u) {
+            $current_id = auth()->user()->id;
+            $u->where('user_id', '=', $current_id);
+        })->get();
 
     	function getSubcats($tournaments) {
     		$tournament_ids = [];
@@ -34,10 +38,29 @@ class ParticipantDashboardController extends Controller
 	    	return $tournament_ids;
     	}
 
-    	$findTournament_ids = getSubcats($tournaments);
-    	$myTournament_ids = getSubcats($my_tournaments);
+        function getTeams($tournaments) {
+            $myTeams = [];
 
-    	return view('participant.dashboard.dashboard', compact('tournaments', 'findTournament_ids', 'my_tournaments', 'myTournament_ids'));
+            foreach($tournaments as $t) {
+                $teams = [];
+                $current_id = auth()->user()->id;
+                $team = Team::where('user_id', $current_id)->where('tournament_id', $t->id)->get();
+                //dd($team);
+
+                foreach($team as $at) {
+                    array_push($teams, ['teamname' => $at->team_name,'data' => $at->subcategory_id]);
+                }
+                
+                $myTeams[$t->id] = $teams;
+            }
+            return $myTeams;
+        }
+        $findTournament_ids = getSubcats($tournaments);
+        $myTournament_ids = getSubcats($my_tournaments);
+        $registeredTeams = getTeams($my_tournaments);
+        //dd($registeredTeams);
+
+    	return view('participant.dashboard.dashboard', compact('tournaments', 'findTournament_ids', 'my_tournaments', 'myTournament_ids', 'registeredTeams'));
     }
 
     function registrationPage($id) {
@@ -71,27 +94,24 @@ class ParticipantDashboardController extends Controller
 
     	$current_id = auth()->user()->id;
 
-    	$subcatId = TournamentSubcategory::where('tournament_id', $request->tournamentId)->where('subcategory_id', $request->subcategory)->get()[0]->id;
+    	//$subcatId = TournamentSubcategory::where('tournament_id', $request->tournamentId)->where('subcategory_id', $request->subcategory)->get()[0]->id;
 
     	$team = new Team;
     	$team->user_id = $current_id;
-    	$team->tournament_subcategory_id = $subcatId;
+        $team->tournament_id = $request->tournamentId;
+    	$team->subcategory_id = $request->subcategory;
     	$team->team_name = $request->teamname;
     	$team->coach_name = $request->coachname;
     	//dd($request->coachmobile);
     	$team->mobile_number = $request->coachmobile;
-
     	$team->save();
 
-    	$count_tournament = ParticipantTournament::where('user_id', $current_id)->get()->count();
+    	$count_tournament = ParticipantTournament::where('user_id', $current_id)->where('tournament_id', $request->tournamentId)->get()->count();
 
     	if ($count_tournament == 0) {
     		$tour = new ParticipantTournament;
-    		$tour->name = 'PARTICIPANT';
-    		$tour->location = 'PARTICIPANT';
+    		$tour->tournament_id = $request->tournamentId;
     		$tour->user_id = $current_id;
-    		$tour->date_start = null;
-    		$tour->date_end = null;
     		$tour->save();
     	}
 

@@ -17,16 +17,32 @@
 							</h6>	
 						</div>
 						<div class="col-sm-4">
-							<h6 class="card-title">Divisions</h6>
-							<ul style="list-style-type: none;">
-								@foreach($findTournament_ids[$t->id] as $subcat)
-									<li class="subcat-content">{{$subcat}}</li>
+							<div class="row my-2">
+								<div class="col-sm-4">
+									Team Name
+								</div>
+								<div class="col-sm-8 subcat-content">
+									Division
+								</div>
+							</div>
+							<ul style="list-style-type: none; padding-left: 10px;">
+								@foreach($registeredTeams[$t->id] as $team)
+									<li>
+										<div class="row">
+											<div class="col-sm-4">
+												{{$team['teamname']}}
+											</div>
+											<div class="col-sm-8 subcat-content">
+												{{$team['data']}}
+											</div>
+										</div>
+									</li>
 								@endforeach
 							</ul>
 						</div>
 						<div class="col-sm-3 ">
 							<div class="row justify-content-center">
-								<button class="btn btn-primary">Register</button>
+								<button class="btn btn-primary">View and Edit Team</button>
 							</div>
 						</div>
 					</div>

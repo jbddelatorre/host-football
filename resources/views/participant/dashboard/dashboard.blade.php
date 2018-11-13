@@ -5,6 +5,7 @@
 	<div class="container">
 		@include('participant.dashboard.showFindTournaments')
 		@include('participant.dashboard.showRegisteredTournaments')
+		@include('participant.dashboard.showTournamentHistory')
 	</div>
 
 @endsection
@@ -49,7 +50,7 @@
 		}
 	}
 
-	const subcatDom = document.querySelectorAll('li.subcat-content');
+	const subcatDom = document.querySelectorAll('.subcat-content');
 	subcatDom.forEach((s) => {
 		s.textContent = convertSubcategory(s.textContent.trim());
 	})
