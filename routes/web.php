@@ -28,6 +28,8 @@ Route::group(['middleware' => 'participant'], function() {
 	Route::get('/participant/registration/{id}', 'ParticipantDashboardController@registrationPage');
 	Route::post('/participant/registration/{id}', 'ParticipantDashboardController@registerTeam');
 
+	Route::get('/participant/viewregistration/{id}', 'ParticipantDashboardController@viewRegistration');
+
 });
 
 Auth::routes();

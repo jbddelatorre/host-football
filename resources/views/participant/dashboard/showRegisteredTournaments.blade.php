@@ -42,7 +42,10 @@
 						</div>
 						<div class="col-sm-3 ">
 							<div class="row justify-content-center">
-								<button class="btn btn-primary">View and Edit Team</button>
+								<form action="/participant/viewregistration/{{$t->id}}" method="GET">
+									@csrf
+									<button class="btn btn-primary">View Team Registration</button>
+								</form>
 							</div>
 						</div>
 					</div>

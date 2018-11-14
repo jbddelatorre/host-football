@@ -10,4 +10,9 @@ class Team extends Model
     {
         return $this->belongsTo('App\TournamentSubcategory');
     }
+
+    public function players()
+    {
+        return $this->hasMany('App\Player');
+    }
 }

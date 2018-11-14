@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\User;
 use App\Tournament;
 use App\ParticipantTournament;
 use App\TournamentSubcategory;
 use App\Team;
-use App\Players;
+use App\Player;
 
 class ParticipantDashboardController extends Controller
 {
@@ -106,6 +108,16 @@ class ParticipantDashboardController extends Controller
     	$team->mobile_number = $request->coachmobile;
     	$team->save();
 
+        $team_id = $team->id;
+
+        foreach($request->players as $p) {
+            $player = new Player;
+            $player->team_id = $team_id;
+            $player->name = $p['name'];
+            $player->date_of_birth = $p['dob'];
+            $player->save();
+        }
+
     	$count_tournament = ParticipantTournament::where('user_id', $current_id)->where('tournament_id', $request->tournamentId)->get()->count();
 
     	if ($count_tournament == 0) {
@@ -114,9 +126,16 @@ class ParticipantDashboardController extends Controller
     		$tour->user_id = $current_id;
     		$tour->save();
     	}
-
-
     	return redirect('/participant');
+    }
+
+
+    function viewRegistration($id) {
+        $current_id = auth()->user()->id;
+        $tournament = Tournament::find($id);
+        $teams = Team::where('user_id', $current_id)->where('tournament_id', $id)->get();
+        $organization = Auth::user()->organization;
+        return view('participant.registration.viewregistration', compact('teams', 'organization', 'tournament'));
     }
 
 }
