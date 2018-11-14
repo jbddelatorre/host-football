@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2018 at 09:27 AM
+-- Generation Time: Nov 14, 2018 at 09:23 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -98,7 +98,31 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (37, '2018_11_05_074950_create_fixture_types_table', 1),
 (38, '2018_11_05_075015_create_fixture_statuses', 1),
 (41, '2018_11_10_103005_add_location_to_tournaments_table', 2),
-(42, '2018_11_10_125435_add_user_id_column_to_tournaments', 2);
+(42, '2018_11_10_125435_add_user_id_column_to_tournaments', 2),
+(43, '2018_11_13_065757_create_participants_tournaments_table', 3),
+(46, '2018_11_13_152732_drop_tournament_subcategory_column_from_teams', 4),
+(47, '2018_11_13_152814_add_tour_id_and_subcat_id_on_teams', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `participants_tournaments`
+--
+
+CREATE TABLE `participants_tournaments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `tournament_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `participants_tournaments`
+--
+
+INSERT INTO `participants_tournaments` (`id`, `tournament_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(8, 15, 2, '2018-11-13 21:22:44', '2018-11-13 21:22:44');
 
 -- --------------------------------------------------------
 
@@ -126,6 +150,36 @@ CREATE TABLE `players` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `players`
+--
+
+INSERT INTO `players` (`id`, `team_id`, `name`, `date_of_birth`, `created_at`, `updated_at`) VALUES
+(17, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(18, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(19, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(20, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(21, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(22, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(23, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(24, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(25, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(26, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(27, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(28, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(29, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(30, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(31, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(32, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(33, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(34, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(35, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(36, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(37, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(38, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(39, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
+(40, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25');
 
 -- --------------------------------------------------------
 
@@ -165,13 +219,23 @@ INSERT INTO `subcategories` (`id`, `subcategory`, `created_at`, `updated_at`) VA
 CREATE TABLE `teams` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `tournament_subcategory_id` int(10) UNSIGNED NOT NULL,
+  `tournament_id` int(10) UNSIGNED NOT NULL,
+  `subcategory_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `team_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `coach_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `teams`
+--
+
+INSERT INTO `teams` (`id`, `user_id`, `tournament_id`, `subcategory_id`, `team_name`, `coach_name`, `mobile_number`, `created_at`, `updated_at`) VALUES
+(15, 2, 15, 'U16', 'sampleteam', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
+(16, 2, 15, 'MO', 'asasasa', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
+(17, 2, 15, 'U18', 'testteam', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:23:25', '2018-11-13 21:23:25');
 
 -- --------------------------------------------------------
 
@@ -196,7 +260,7 @@ CREATE TABLE `tournaments` (
 --
 
 INSERT INTO `tournaments` (`id`, `name`, `location`, `user_id`, `date_start`, `date_end`, `status`, `created_at`, `updated_at`) VALUES
-(15, 'ore', 'philippines', 2, '2018-11-20', '2018-11-20', 1, '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
+(15, 'ore', 'philippines', 1, '2018-11-20', '2018-11-20', 1, '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
 (16, 'jason', 'loca1', 1, '2018-11-12', '2018-11-21', 2, '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
 (17, 'new tournament', 'tournament1', 1, '2018-11-16', '2018-11-16', 1, '2018-11-11 20:50:27', '2018-11-11 20:50:27');
 
@@ -302,8 +366,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `organization`, `email`, `email_verified_at`, `password`, `user_type_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Jason Dela Torre', 'xs', 'a@a.com', NULL, '$2y$10$WMdKHa7nIQz4eqZs9XPiDOWYjNBcKtQJB51L10szFbf9nLcZRfvWW', 1, '3RBSwfKiNTmFT6hcN61kZWuLwlcH1NNU4NoKHmF0YA1meXgplWJ0RYliP2oS', '2018-11-09 19:30:13', '2018-11-09 19:30:13'),
-(2, 'sdkpf', 'lol', 'b@b.com', NULL, '$2y$10$PcKstzJVcAC.lYjyQCBHMeEAndyRbEZUPOlfvNcERau0Y3YVtwAmq', 2, 'T1ZXuUIEPafG64wv8it4GQgnsuVrpfYXkHDEpvVe1jb4EwxEw53gyaekBGf6', '2018-11-09 19:47:34', '2018-11-09 19:47:34');
+(1, 'Jason Dela Torre', 'xs', 'a@a.com', NULL, '$2y$10$WMdKHa7nIQz4eqZs9XPiDOWYjNBcKtQJB51L10szFbf9nLcZRfvWW', 1, 'ygNAMAWr5srhOmeBtSz4YWR6OJR3xaCoTMC5b3VQy71wlQJFvG9jBnpiVGb2', '2018-11-09 19:30:13', '2018-11-09 19:30:13'),
+(2, 'sdkpf', 'lol', 'b@b.com', NULL, '$2y$10$PcKstzJVcAC.lYjyQCBHMeEAndyRbEZUPOlfvNcERau0Y3YVtwAmq', 2, 'o8iYmv3oEh46S4DbghisQvhSqi7mnMhLw8OU7MyXIuQHl4DHDYBiE3jY9Xr4', '2018-11-09 19:47:34', '2018-11-09 19:47:34');
 
 -- --------------------------------------------------------
 
@@ -344,6 +408,12 @@ ALTER TABLE `fixture_types`
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `participants_tournaments`
+--
+ALTER TABLE `participants_tournaments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -427,19 +497,25 @@ ALTER TABLE `fixture_types`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT for table `participants_tournaments`
+--
+ALTER TABLE `participants_tournaments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tournaments`
