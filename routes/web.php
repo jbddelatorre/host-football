@@ -29,6 +29,7 @@ Route::group(['middleware' => 'participant'], function() {
 	Route::post('/participant/registration/{id}', 'ParticipantDashboardController@registerTeam');
 
 	Route::get('/participant/viewregistration/{id}', 'ParticipantDashboardController@viewRegistration');
+	Route::get('/participant/editregistration/{team_id}', 'ParticipantDashboardController@editRegistration');
 
 });
 

@@ -11,19 +11,19 @@
 				{{$tournament->date_start}} to {{ $tournament->date_end }}
 			@endif
 		</h6>
-
 		<h2>Under organization: {{$organization}} </h2>
+		@include('inc.messages')
 		<div class="row">
 			<div class="col sm-12">
 				@foreach($teams as $team)
 					<div class="card bg-faded my-3 pt-2">
 						<div class="card-body">
 							<div class="row align-items-center">
-								<div class="col-sm-3">
+								<div class="col-sm-12 col-md-3">
 									<h6 class="card-title">{{$team->team_name}}</h6>
 									<h6 class="card-title subcat-content">{{$team->subcategory_id}}</h6>
 								</div>
-								<div class="col-sm-6">
+								<div class="col-sm-12 col-md-6">
 									<div class="row my-2">
 										<div class="col-sm-4">
 											Player Names
@@ -49,9 +49,9 @@
 								</div>
 								<div class="col-sm-3 ">
 									<div class="row justify-content-center">
-										<form action="/participant/viewregistration/" method="GET">
+										<form action="/participant/editregistration/{{$team->id}}" method="GET">
 											@csrf
-											<button class="btn btn-primary">Edit Team Registration</button>
+											<button type="submit" class="btn btn-primary">Edit Team Registration</button>
 										</form>
 									</div>
 								</div>

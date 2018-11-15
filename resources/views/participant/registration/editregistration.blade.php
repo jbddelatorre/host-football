@@ -46,10 +46,11 @@
 	<div class="container">
 		<h2>Tournament Registration</h2>
 		@include('inc.messages')
-		<form action="/participant/registration/{{$id}}" method="POST">
+		<form action="/participant/registration/{{$tournament->id}}" method="POST">
 			@csrf
 		<div class="row">
-			<input type="text" hidden name="tournamentId" value="{{$id}}">
+			<input type="text" hidden name="tournamentId" value="{{$tournament->id}}">
+			<input type="text" hidden name="teamId" value="{{$team->id}}">
 			<div class="col sm-12">
 				<div class="card bg-faded my-3 pt-2">
 					<div class="card-body">
@@ -66,11 +67,8 @@
 
 					<div class="card-body">
 						<h6>Choose a division</h6>
-						@foreach($subcats as $sub)
-							<input class="subcat-radio" type="radio" id="radio{{$sub->id}}"name="subcategory" value={{$sub->subcategory_id}}>
-							<label class="subcat-content"for="radio{{$sub->id}}">{{$sub->subcategory_id}}</label>
-						@endforeach
-							<input type="radio" id="radio{{$sub->id}}"name="subcategory" value={{$sub->subcategory_id}}>
+						<input class="subcat-radio" type="radio" id="radio{{$team->subcategory_id}}"name="subcategory" value={{$team->subcategory_id}}>
+						<label class="subcat-content"for="radio{{$team->subcategory_id}}">{{$team->subcategory_id}}</label>
 					</div>
 				
 					<div class="card-body">
@@ -78,7 +76,7 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-6">
-									<input type="text" class="form-control {{$errors->has('teamname') ? 'is-invalid' : ''}}" id="teamName" name="teamname">
+									<input type="text" class="form-control {{$errors->has('teamname') ? 'is-invalid' : ''}}" id="teamName" name="teamname" value="{{$team->team_name}}">
 									<div class="invalid-feedback">
 										{{$errors->first('teamname')}}
 									</div>
@@ -88,7 +86,7 @@
 						</div>
 					</div>
 					
-					<div class="card-body" id="playerFillout">
+					<div class="card-body players-form-list" id="playerFillout">
 						<h6>Team Members</h6>
 						<div class="form-group">
 							<div class="row">
@@ -100,25 +98,28 @@
 								</div>
 							</div>
 						</div>
-						
+
+						<div id="playerCountData" data-players-count={{count($players)}}></div>
+
 						@if($errors->has('players'))
 							<div class="alert alert-danger">
 								{{$errors->first('players')}}
 							</div>
 						@endif
 
-						{{-- SCRIPT INSERT PLAYER FORM --}}
-						@for($i = 0; $i < 8; $i++)
+						{{-- SCRIPT INSERT PLAYER FORM --}}		
+						@for($i = 0; $i < count($players); $i++)
 							<div class="form-group">
 								<div class="row">
 									<div class="col-sm-7">
-										<input type="text" class="players-name form-control {{$errors->has('players.'.$i.'.name') ? 'is-invalid':''}}" name="players[{{$i}}][name]" placeholder="Enter Full Name">
+										<input type="text" value="{{$players[$i]['name']}}" class="players-name form-control {{$errors->has('players.'.$i.'.name') ? 'is-invalid':''}}" name="players[{{$i}}][name]">
+
 										<div class="invalid-feedback">
 											{{$errors->first('players.'.$i.'.name')}}
 										</div>
 									</div>
 									<div class="col-sm-5">
-										<input type="date" id="date{{$i}}" class="players-date form-control {{$errors->has('players.'.$i.'.dob') ? 'is-invalid':''}}" name="players[{{$i}}][dob]">
+										<input type="date" id="date{{$i}}" class="players-date form-control {{$errors->has('players.'.$i.'.dob') ? 'is-invalid':''}}" name="players[{{$i}}][dob]" value={{$players[$i]['date_of_birth']}}>
 										<div class="invalid-feedback">
 											{{$errors->first('players.'.$i.'.dob')}}
 										</div>
@@ -126,13 +127,12 @@
 								</div>
 							</div> 
 						@endfor
-
 					</div>
 			
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add</button>
-							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Remove</button>
+							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add Player</button>
+							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Delete</button>
 						</div>
 					</div>
 						
@@ -144,7 +144,7 @@
 									<label for="coachName">Name of Coach</label>
 								</div>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="coachName" name="coachname">
+									<input type="text" class="form-control" id="coachName" name="coachname" value="{{$team->coach_name}}">
 								</div>
 							</div>
 						</div>
@@ -154,7 +154,7 @@
 									<label for="coachMobile">Mobile Number</label>
 								</div>
 								<div class="col-sm-6">
-									<input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" class="form-control" id="coachMobile" name="coachmobile">
+									<input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" class="form-control" id="coachMobile" name="coachmobile" value={{$team->mobile_number}}>
 									<small class="form-text text-muted">Format: 0917-123-4567</small>
 								</div>
 							</div>
@@ -175,8 +175,7 @@
 		</form>
 
 	</div>
-
-@endsection
+@endsection 
 
 <script>
 	window.onload = () => {
@@ -242,6 +241,8 @@
 	//Add/Remove players Form
 
 	const buttons = document.querySelectorAll('.button-player-fillout')
+	const formAdd = document.querySelector('#formAdd')
+	const formRemove = document.querySelector('#formRemove')
 
 		//Remove default
 	buttons.forEach((b) => {
@@ -249,19 +250,38 @@
 			e.preventDefault();
 		})
 	})
+		
+		//Add form functionality
+	formAdd.addEventListener("click", () => {
+		const playerCountDOM = document.querySelector('#playerCountData')
+		const playerCount = playerCountDOM.getAttribute('data-players-count')
 
-	//Generate random dates
-	const dateInputs = document.querySelectorAll('.players-date')
-	const nameInputs = document.querySelectorAll('.players-name')
+		$('.players-form-list').append(`
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-7">
+						<input type="text" class="players-name form-control name="players[${playerCount - 1}][name] placeholder='Enter Full Name'">
+					</div>
+					<div class="col-sm-5">
+						<input type="date" id="date${playerCount - 1}" class="players-date form-control" name="players[{${playerCount - 1}}][dob]">
+					</div>
+				</div>
+			</div>
+		`)
 
-	const sample = () => {
-		for(let i = 0; i < dateInputs.length; i++) {
-			dateInputs[i].value = '1990-12-12'
-			nameInputs[i].value = 'Sample name'
+		const countname = document.querySelectorAll('.players-name').length
+		const countdob = document.querySelectorAll('.players-date').length
+
+		if (countname !== countdob) {
+			count = countname < countdob ? countname:countdob
+		} else {
+			count = countname
 		}
-	}
 
-	sample()
+		playerCountDOM.setAttribute('data-players-count', count);
+		console.log(playerCountDOM.getAttribute('data-players-count'))
+	})
+
 }
 
 </script>

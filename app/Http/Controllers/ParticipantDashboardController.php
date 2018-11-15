@@ -94,39 +94,59 @@ class ParticipantDashboardController extends Controller
     		'players.*.dob.required' => "Player date of birth is required.",
     	]);
 
-    	$current_id = auth()->user()->id;
+        if ($request->teamId == null) {
+            dd('asdasdasdasdas');
+            $current_id = auth()->user()->id;
+            $team = new Team;
+            $team->user_id = $current_id;
+            $team->tournament_id = $request->tournamentId;
+            $team->subcategory_id = $request->subcategory;
+            $team->team_name = $request->teamname;
+            $team->coach_name = $request->coachname;
+            $team->mobile_number = $request->coachmobile;
+            $team->save();
 
-    	//$subcatId = TournamentSubcategory::where('tournament_id', $request->tournamentId)->where('subcategory_id', $request->subcategory)->get()[0]->id;
+            $team_id = $team->id;
 
-    	$team = new Team;
-    	$team->user_id = $current_id;
-        $team->tournament_id = $request->tournamentId;
-    	$team->subcategory_id = $request->subcategory;
-    	$team->team_name = $request->teamname;
-    	$team->coach_name = $request->coachname;
-    	//dd($request->coachmobile);
-    	$team->mobile_number = $request->coachmobile;
-    	$team->save();
+            foreach($request->players as $p) {
+                $player = new Player;
+                $player->team_id = $team_id;
+                $player->name = $p['name'];
+                $player->date_of_birth = $p['dob'];
+                $player->save();
+            }
 
-        $team_id = $team->id;
+            $count_tournament = ParticipantTournament::where('user_id', $current_id)->where('tournament_id', $request->tournamentId)->get()->count();
 
-        foreach($request->players as $p) {
-            $player = new Player;
-            $player->team_id = $team_id;
-            $player->name = $p['name'];
-            $player->date_of_birth = $p['dob'];
-            $player->save();
+            if ($count_tournament == 0) {
+                $tour = new ParticipantTournament;
+                $tour->tournament_id = $request->tournamentId;
+                $tour->user_id = $current_id;
+                $tour->save();
+            }
+
+            return redirect('/participant');
+        } else {
+            $team = Team::find($request->teamId);
+            $team->subcategory_id = $request->subcategory;
+            $team->team_name = $request->teamname;
+            $team->coach_name = $request->coachname;
+            $team->mobile_number = $request->coachmobile;
+            $team->save();
+
+            $old_players = Player::where('team_id', $request->teamId);
+            $old_players->delete();
+
+            foreach($request->players as $p) {
+                $player = new Player;
+                $player->team_id = $request->teamId;
+                $player->name = $p['name'];
+                $player->date_of_birth = $p['dob'];
+                $player->save();
+            }
+
+            return redirect('/participant/viewregistration/'.$request->tournamentId)->with('success', "Successfully edited team!");;
         }
-
-    	$count_tournament = ParticipantTournament::where('user_id', $current_id)->where('tournament_id', $request->tournamentId)->get()->count();
-
-    	if ($count_tournament == 0) {
-    		$tour = new ParticipantTournament;
-    		$tour->tournament_id = $request->tournamentId;
-    		$tour->user_id = $current_id;
-    		$tour->save();
-    	}
-    	return redirect('/participant');
     }
 
 
@@ -136,6 +156,16 @@ class ParticipantDashboardController extends Controller
         $teams = Team::where('user_id', $current_id)->where('tournament_id', $id)->get();
         $organization = Auth::user()->organization;
         return view('participant.registration.viewregistration', compact('teams', 'organization', 'tournament'));
+    }
+
+    function editRegistration($team_id) {
+        $team = Team::find($team_id);
+        $players = Player::where('team_id', $team_id)->get();
+        $tournament = Tournament::find($team->tournament_id);
+
+
+
+        return view('participant.registration.editregistration', compact('team','players', 'tournament'));
     }
 
 }

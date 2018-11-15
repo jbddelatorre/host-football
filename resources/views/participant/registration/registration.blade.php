@@ -49,7 +49,7 @@
 							<input class="subcat-radio" type="radio" id="radio{{$sub->id}}"name="subcategory" value={{$sub->subcategory_id}}>
 							<label class="subcat-content"for="radio{{$sub->id}}">{{$sub->subcategory_id}}</label>
 						@endforeach
-							<input type="radio" id="radio{{$sub->id}}"name="subcategory" value={{$sub->subcategory_id}}>
+{{-- 							<input type="radio" id="radio{{$sub->id}}"name="subcategory" value={{$sub->subcategory_id}}> --}}
 					</div>
 				
 					<div class="card-body">
@@ -110,8 +110,8 @@
 			
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add</button>
-							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Remove</button>
+							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add Player</button>
+							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Delete</button>
 						</div>
 					</div>
 						
