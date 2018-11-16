@@ -6,19 +6,19 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<ul>
-					<li class="nav-link" div-link-id="registerTournament">Register</li>
 					<li class="nav-link" div-link-id="showRegisteredTournaments">View Registered</li>
+					<li class="nav-link" div-link-id="registerTournament">Register</li>
 					<li class="nav-link" div-link-id="showOngoingTournaments">Show Ongoing</li>
 					<li class="nav-link" div-link-id="showTournamentsHistory">Tournament History</li>
 				</ul>
 			</div>
 		</div>
 
-		<div class="dashboard-view" id="registerTournament">
-			@include('host.dashboard.registerTournament')
-		</div>
-		<div class="dashboard-view hide-view" id="showRegisteredTournaments">
+		<div class="dashboard-view" id="showRegisteredTournaments">
 			@include('host.dashboard.showRegisteredTournaments')
+		</div>
+		<div class="dashboard-view hide-view" id="registerTournament">
+			@include('host.dashboard.registerTournament')
 		</div>
 		<div class="dashboard-view hide-view" id="showOngoingTournaments">
 			@include('host.dashboard.showOngoingTournaments')

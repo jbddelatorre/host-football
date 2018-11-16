@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tournament;
+use App\Team;
 use App\TournamentSubcategory;
 
 class HostDashboardController extends Controller
@@ -23,7 +24,9 @@ class HostDashboardController extends Controller
     		$subcategory = TournamentSubcategory::where('tournament_id', $t->id)->get();
 
     		foreach($subcategory as $sc) {
-    			array_push($subcats, $sc->subcategory_id);
+                $teams = Team::where('tournament_id', $t->id)->where('subcategory_id', $sc->subcategory_id)->get();
+
+                $subcats[$sc->subcategory_id] = $teams;
     		}
 
     		$tournament_ids[$t->id] = $subcats;

@@ -26,7 +26,6 @@
         .hide-view {
             display: none !important;
         }
-
     </style>
 
 </head>
