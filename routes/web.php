@@ -30,7 +30,7 @@ Route::group(['middleware' => 'participant'], function() {
 
 	Route::get('/participant/viewregistration/{id}', 'ParticipantDashboardController@viewRegistration');
 	Route::get('/participant/editregistration/{team_id}', 'ParticipantDashboardController@editRegistration');
-
+	Route::delete('/participant/deleteteam/{team_id}', 'ParticipantDashboardController@deleteTeam');
 });
 
 Auth::routes();

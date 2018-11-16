@@ -1,12 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-
 	<div class="container">
-		@include('host.dashboard.registerTournament')
-		@include('host.dashboard.showRegisteredTournaments')
-		@include('host.dashboard.showOngoingTournaments')
-		@include('host.dashboard.showTournamentsHistory')
+
+		<div class="row">
+			<div class="col-sm-12">
+				<ul>
+					<li class="nav-link" div-link-id="registerTournament">Register</li>
+					<li class="nav-link" div-link-id="showRegisteredTournaments">View Registered</li>
+					<li class="nav-link" div-link-id="showOngoingTournaments">Show Ongoing</li>
+					<li class="nav-link" div-link-id="showTournamentsHistory">Tournament History</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="dashboard-view" id="registerTournament">
+			@include('host.dashboard.registerTournament')
+		</div>
+		<div class="dashboard-view hide-view" id="showRegisteredTournaments">
+			@include('host.dashboard.showRegisteredTournaments')
+		</div>
+		<div class="dashboard-view hide-view" id="showOngoingTournaments">
+			@include('host.dashboard.showOngoingTournaments')
+		</div>
+		<div class="dashboard-view hide-view" id="showTournamentsHistory">
+			@include('host.dashboard.showTournamentsHistory')
+		</div>
 	</div>
 @endsection
 
@@ -70,6 +89,24 @@ window.onload = () => {
 		} else {
 			endDateInput.removeAttribute("disabled", '')
 		}
+	})
+
+
+	// View Navigation Functionality
+
+	const tabs = document.querySelectorAll('.nav-link');
+	const views = document.querySelectorAll('.dashboard-view');
+
+	tabs.forEach(t => {
+		t.addEventListener("click", () => {
+			const link_id = t.getAttribute('div-link-id')
+			const current_view = document.querySelector(`#${link_id}`)
+
+			views.forEach(v => {
+				v.classList.add('hide-view');
+			})
+			current_view.classList.remove('hide-view')
+		})
 	})
 }
 

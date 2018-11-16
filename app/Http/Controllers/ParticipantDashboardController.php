@@ -47,7 +47,6 @@ class ParticipantDashboardController extends Controller
                 $teams = [];
                 $current_id = auth()->user()->id;
                 $team = Team::where('user_id', $current_id)->where('tournament_id', $t->id)->get();
-                //dd($team);
 
                 foreach($team as $at) {
                     array_push($teams, ['teamname' => $at->team_name,'data' => $at->subcategory_id]);
@@ -60,7 +59,6 @@ class ParticipantDashboardController extends Controller
         $findTournament_ids = getSubcats($tournaments);
         $myTournament_ids = getSubcats($my_tournaments);
         $registeredTeams = getTeams($my_tournaments);
-        //dd($registeredTeams);
 
     	return view('participant.dashboard.dashboard', compact('tournaments', 'findTournament_ids', 'my_tournaments', 'myTournament_ids', 'registeredTeams'));
     }
@@ -95,7 +93,6 @@ class ParticipantDashboardController extends Controller
     	]);
 
         if ($request->teamId == null) {
-            dd('asdasdasdasdas');
             $current_id = auth()->user()->id;
             $team = new Team;
             $team->user_id = $current_id;
@@ -125,7 +122,8 @@ class ParticipantDashboardController extends Controller
                 $tour->save();
             }
 
-            return redirect('/participant');
+            return redirect('/participant')->with('success', "Successfully registered team!");
+
         } else {
             $team = Team::find($request->teamId);
             $team->subcategory_id = $request->subcategory;
@@ -145,7 +143,7 @@ class ParticipantDashboardController extends Controller
                 $player->save();
             }
 
-            return redirect('/participant/viewregistration/'.$request->tournamentId)->with('success', "Successfully edited team!");;
+            return redirect('/participant/viewregistration/'.$request->tournamentId)->with('success', "Successfully edited team!");
         }
     }
 
@@ -166,6 +164,16 @@ class ParticipantDashboardController extends Controller
 
 
         return view('participant.registration.editregistration', compact('team','players', 'tournament'));
+    }
+
+    function deleteTeam(Request $request, $team_id) {
+        $team = Team::find($team_id);
+        $players = Player::where('team_id', $team_id);
+
+        $team->delete();
+        $players->delete();
+
+        return redirect('/participant/viewregistration/'.$request->tournamentId)->with('success', "Successfully deleted team!");
     }
 
 }

@@ -12,6 +12,13 @@
 			@endif
 		</h6>
 		<h2>Under organization: {{$organization}} </h2>
+
+		<div class="row justify-content-end">
+			<div class="col-sm-12">
+				<a class="btn btn-success float-right" href="/participant">Return to Dashboard</a>
+			</div>
+		</div>
+
 		@include('inc.messages')
 		<div class="row">
 			<div class="col sm-12">
@@ -52,6 +59,12 @@
 										<form action="/participant/editregistration/{{$team->id}}" method="GET">
 											@csrf
 											<button type="submit" class="btn btn-primary">Edit Team Registration</button>
+										</form>
+										<form action="/participant/deleteteam/{{$team->id}}" method="POST">
+											@csrf
+											@method('DELETE')
+											<input type="number" hidden name="tournamentId" value={{$team->tournament_id}}>
+											<button type="submit" class="btn btn-danger">Delete Team Registration</button>
 										</form>
 									</div>
 								</div>

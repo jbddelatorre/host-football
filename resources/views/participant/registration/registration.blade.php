@@ -24,6 +24,13 @@
 @section('content')
 	<div class="container">
 		<h2>Tournament Registration</h2>
+
+		<div class="row justify-content-end">
+			<div class="col-sm-12">
+				<a class="btn btn-success float-right" href="/participant">Return to Dashboard</a>
+			</div>
+		</div>
+		
 		@include('inc.messages')
 		<form action="/participant/registration/{{$id}}" method="POST">
 			@csrf
