@@ -15,14 +15,15 @@ class CreateFixturesTable extends Migration
     {
         Schema::create('fixtures', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tournament_subcategory_id')->unsigned();
+            $table->integer('tournament_id')->unsigned();
+            $table->string('subcategory_id');
             $table->integer('a_team')->unsigned();
             $table->integer('b_team')->unsigned();
-            $table->integer('a_score')->unsigned();
-            $table->integer('b_score')->unsigned();
+            $table->integer('a_score')->unsigned()->nullable();
+            $table->integer('b_score')->unsigned()->nullable();
             $table->integer('match_order')->unsigned();
-            $table->integer('status_id')->unsigned();
-            $table->integer('fixture_type_id')->unsigned();
+            $table->string('status_id');
+            $table->string('fixture_type_id');
             $table->timestamps();
         });
     }

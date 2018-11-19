@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tournament;
 use App\Team;
 use App\Player;
+use App\Fixture;
 use App\TournamentSubcategory;
 use App\ParticipantTournament;
 
@@ -132,10 +133,10 @@ class HostDashboardController extends Controller
             };
         }
 
-        dd('successs');
         //Initialize
         foreach($subcategories as $subcat) {
             $query_teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat)->where('team_registration_status', 'A')->get();
+            $tournament_id = $id;
 
             $teams = [];
 
@@ -148,6 +149,44 @@ class HostDashboardController extends Controller
 
             $group_A = array_chunk($teams, $divider)[0];
             $group_B = array_chunk($teams, $divider)[1];
+
+            function pairUp($group, $array){
+                if(count($group) == 1) {
+                    return $array;
+                }
+                $pairs = [];
+                $first = $group[0];
+
+                for($x = 1; $x < count($group); $x++) {
+                    array_push($pairs, [$first, $group[$x]]);
+                }
+
+                return pairUp(array_slice($group, 1), array_merge($array, $pairs));
+            }
+
+            $group_A_pairs = pairUp($group_A, []);
+            $group_B_pairs = pairUp($group_B, []);
+            
+            function generateFixtures($pairs, $group, $tournament_id, $subcat) {
+                $count = 1;
+                foreach($pairs as $pair) {
+                    $fixture = new Fixture;
+                    $fixture->tournament_id = $tournament_id;
+                    $fixture->subcategory_id = $subcat;
+                    $fixture->group = $group;
+                    $fixture->a_team = $pair[0];
+                    $fixture->b_team = $pair[1];
+                    $fixture->match_order = $count;
+                    $fixture->status_id = "S";
+                    $fixture->fixture_type_id = "G";
+                    $fixture->save();
+                }
+            }
+
+            generateFixtures($group_A_pairs, "A", $tournament_id, $subcat);
+            generateFixtures($group_B_pairs, "B", $tournament_id, $subcat);
+
+            return redirect('/host')->with('success', "Successfully initialized tournament");
 
         }
     }

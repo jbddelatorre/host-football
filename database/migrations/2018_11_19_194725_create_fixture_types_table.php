@@ -14,7 +14,7 @@ class CreateFixtureTypesTable extends Migration
     public function up()
     {
         Schema::create('fixture_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->char('id', 1)->unique();
             $table->string('fixture_type');
             $table->timestamps();
         });
