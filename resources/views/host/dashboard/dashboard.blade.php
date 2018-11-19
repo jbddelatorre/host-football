@@ -2,7 +2,6 @@
 
 @section('content')
 	<div class="container">
-
 		<div class="row">
 			<div class="col-sm-12">
 				<ul>
@@ -13,6 +12,8 @@
 				</ul>
 			</div>
 		</div>
+
+		@include('inc.messages')
 
 		<div class="dashboard-view" id="showRegisteredTournaments">
 			@include('host.dashboard.showRegisteredTournaments')

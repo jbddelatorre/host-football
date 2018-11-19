@@ -1,5 +1,4 @@
 <h2>Create a new Tournament</h2>
-	@include('inc.messages')
 	<form id="formRegisterTournament" method="POST" action="/host/registertournament">
 		@csrf
 		<div class="row">

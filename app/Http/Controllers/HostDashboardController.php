@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tournament;
 use App\Team;
+use App\Player;
 use App\TournamentSubcategory;
+use App\ParticipantTournament;
 
 class HostDashboardController extends Controller
 {
@@ -82,4 +84,22 @@ class HostDashboardController extends Controller
     	}
     	return redirect('/host')->with('success', 'Tournament '.$request->name.' Created!');
     }
+
+
+    function deleteTournament($id) {
+        $tournament = Tournament::find($id);
+        $tournament_subcategories = TournamentSubcategory::where('tournament_id', $id);
+        $teams = Team::where('tournament_id', $id);
+        $players = Player::where('tournament_id', $id);
+        $participants_tournaments = ParticipantTournament::where('tournament_id', $id);
+
+        $players->delete();
+        $teams->delete();
+        $participants_tournaments->delete();
+        $tournament_subcategories->delete();
+        $tournament->delete();
+
+        return redirect('/host')->with('success', "Successfully deleted Tournament!");
+    }
+
 }

@@ -29,6 +29,7 @@
 								<div class="col-sm-12 col-md-3">
 									<h6 class="card-title">{{$team->team_name}}</h6>
 									<h6 class="card-title subcat-content">{{$team->subcategory_id}}</h6>
+									<h6 class="card-title">{{$team->team_registration_status}}</h6>
 								</div>
 								<div class="col-sm-12 col-md-6">
 									<div class="row my-2">

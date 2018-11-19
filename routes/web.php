@@ -17,9 +17,9 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => 'host'], function() {
-
 	Route::get('/host', 'HostDashboardController@getTournaments');
 	Route::post('/host/registertournament', 'HostDashboardController@registerTournament');
+	Route::delete('/host/deletetournament/{id}', 'HostDashboardController@deleteTournament');
 
 });
 

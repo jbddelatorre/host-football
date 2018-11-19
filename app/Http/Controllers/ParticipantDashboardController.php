@@ -101,6 +101,7 @@ class ParticipantDashboardController extends Controller
             $team->team_name = $request->teamname;
             $team->coach_name = $request->coachname;
             $team->mobile_number = $request->coachmobile;
+            $team->team_registration_status = "P";
             $team->save();
 
             $team_id = $team->id;
@@ -108,6 +109,7 @@ class ParticipantDashboardController extends Controller
             foreach($request->players as $p) {
                 $player = new Player;
                 $player->team_id = $team_id;
+                $player->tournament_id = $request->tournamentId;
                 $player->name = $p['name'];
                 $player->date_of_birth = $p['dob'];
                 $player->save();
