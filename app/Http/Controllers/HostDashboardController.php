@@ -102,4 +102,54 @@ class HostDashboardController extends Controller
         return redirect('/host')->with('success', "Successfully deleted Tournament!");
     }
 
+    function updateTeamStatus(Request $request, $team_id) {
+        if($request->status == 'A' || $request->status == 'R' || $request->status == 'P' ) {
+
+            $team = Team::find($team_id);
+            $team->team_registration_status = $request->status;
+            $team->save();
+
+            return response()->json(['status'=>$request->status]);
+        }
+        abort(404, 'Invalid action request.');
+    }
+
+    function initializeTournament($id) {
+        $query_subcat = TournamentSubcategory::where('tournament_id', $id)->get();
+
+        $subcategories = [];
+
+        foreach($query_subcat as $qs) {
+            array_push($subcategories, $qs->subcategory_id);
+        }
+
+        //Validate teams
+        foreach($subcategories as $subcat) {
+            $query_teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat)->where('team_registration_status', 'A')->get();
+
+            if(count($query_teams) !== 8) {
+                return redirect('/host')->with('error', 'Each tournament subcategory must have exactly 8 approved teams.');
+            };
+        }
+
+        dd('successs');
+        //Initialize
+        foreach($subcategories as $subcat) {
+            $query_teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat)->where('team_registration_status', 'A')->get();
+
+            $teams = [];
+
+            foreach($query_teams as $t) {
+                array_push($teams, $t->id);
+            }
+
+            $divider = count($teams)/2;
+            shuffle($teams);
+
+            $group_A = array_chunk($teams, $divider)[0];
+            $group_B = array_chunk($teams, $divider)[1];
+
+        }
+    }
+
 }

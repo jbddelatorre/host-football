@@ -1,3 +1,20 @@
+<style>
+    .circle-button:hover {
+        cursor:pointer;
+        transform: translateY(-2px);
+        transition: all .2s linear;
+    }
+
+    .disable-circle-button {
+    	opacity: 0.3;
+    	color:gray !important;
+    }
+    .disable-circle-button:hover {
+    	transform: translateY(0) !important;
+    }
+
+</style>
+
 @extends('layouts.app')
 
 @section('content')
@@ -109,6 +126,10 @@ window.onload = () => {
 			current_view.classList.remove('hide-view')
 		})
 	})
+
+
+	// Show Registered Tournaments View Script Functionalities
+	scriptShowRegisteredTournaments();
 }
 
 </script>

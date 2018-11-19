@@ -45,8 +45,24 @@
 													<div class="row my-2">
 														<div class="col-sm-3 text-center">{{$team->team_name}}</div>
 														<div class="col-sm-4 text-center">{{$team->user->organization}}</div>
-														<div class="col-sm-2 text-center">{{$team->team_registration_status}}</div>
-														<div class="col-sm-3 text-center">Accept | Reject | Pending</div>
+														<div team-id-status={{$team->id}} class="col-sm-2 text-center status-content">{{$team->team_registration_status}}</div>
+														<div class="col-sm-3 text-center">
+															<i style="color:green;" class="fa-lg far fa-check-circle circle-button
+																@if($team->team_registration_status == 'A')
+																	disable-circle-button
+																@endif
+															" data-team-id="{{$team->id}}" data-action="A"></i> | 
+															<i style="color:red;" class="fa-lg far fa-times-circle circle-button
+																@if($team->team_registration_status == 'R')
+																	disable-circle-button
+																@endif
+															" data-team-id="{{$team->id}}" data-action="R"></i> | 
+															<i style="color:orange;" class="fa-lg far fa-stop-circle circle-button
+																@if($team->team_registration_status == 'P')
+																	disable-circle-button
+																@endif
+															" data-team-id="{{$team->id}}" data-action="P"></i>
+														</div>
 													</div>
 													<hr>
 												@endforeach
@@ -68,7 +84,8 @@
 					<hr>
 
 					<div class="row justify-content-center py-2">
-						<form action="">	
+						<form action="/host/initialize/{{$t->id}}" method="GET">	
+							@csrf
 							<button class="btn btn-primary mx-2">Initialize Tournament</button>
 						</form>
 						<form action="/host/deletetournament/" method="POST">
@@ -84,3 +101,88 @@
 		@endforeach
 	</div>
 </div>
+
+<script>
+
+	const scriptShowRegisteredTournaments = () => {
+		const convertTeamStatus = (status) => {
+			switch(status) {
+				case 'A':
+					return 'Approved';
+					break;
+				case 'R':
+					return 'Rejected';
+					break;
+				case 'P':
+					return 'Pending';
+					break;
+				default:
+					return 'Undefined';
+			}
+		}
+
+		const transformTeamStatus = () => {
+			const statusDom = document.querySelectorAll('.status-content')
+			statusDom.forEach(s => {
+				s.textContent = convertTeamStatus(s.textContent);
+			})
+		}
+
+
+		const teamButtons = () => {
+			const buttons = document.querySelectorAll('.circle-button');
+			const statusDom = document.querySelectorAll('.status-content')
+
+			buttons.forEach(b => {
+				b.addEventListener("click", (event) => {
+
+					//UI RESPONSE
+					const teamid = b.getAttribute('data-team-id');
+					const action = b.getAttribute('data-action');
+
+					const team_status_dom = document.querySelector(`[team-id-status="${teamid}"]`);
+					const team_buttons = document.querySelectorAll(`[data-team-id="${teamid}"]`);
+
+					team_buttons.forEach(but => {
+						but.classList.remove('disable-circle-button')
+					})
+					b.classList.add('disable-circle-button');
+					team_status_dom.textContent = convertTeamStatus(action);
+
+					//AJAX CALL
+					
+					const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+					const url = `/host/updateteamstatus/${teamid}`;
+
+
+					fetch(url, {
+						headers: {
+							"Content-Type": "application/json",
+							"Accept": "application/json, text-plain, */*",
+							"X-Requested-With": "XMLHttpRequest",
+							"X-CSRF-TOKEN": token
+						},
+						method: 'post',
+						credentials: "same-origin",
+						body: JSON.stringify({
+							status: action,
+						})
+					})
+					.then(response => response.json())
+					.then(data => {
+						if(data.status !== action) {
+							throw "Action mismatch."
+						}
+					})
+					.catch(err => console.log(err));
+				})
+			})
+		}
+
+
+		transformTeamStatus();
+		teamButtons();
+	}
+
+
+</script>

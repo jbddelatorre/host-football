@@ -21,6 +21,10 @@ Route::group(['middleware' => 'host'], function() {
 	Route::post('/host/registertournament', 'HostDashboardController@registerTournament');
 	Route::delete('/host/deletetournament/{id}', 'HostDashboardController@deleteTournament');
 
+	Route::post('/host/updateteamstatus/{team_id}', 'HostDashboardController@updateTeamStatus');
+
+	Route::get('/host/initialize/{id}', 'HostDashboardController@initializeTournament');
+
 });
 
 Route::group(['middleware' => 'participant'], function() {
