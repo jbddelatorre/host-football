@@ -177,14 +177,19 @@ class HostDashboardController extends Controller
                     $fixture->a_team = $pair[0];
                     $fixture->b_team = $pair[1];
                     $fixture->match_order = $count;
-                    $fixture->status_id = "S";
+                    $fixture->fixture_status_id = "S";
                     $fixture->fixture_type_id = "G";
                     $fixture->save();
+                    $count++;
                 }
             }
 
             generateFixtures($group_A_pairs, "A", $tournament_id, $subcat);
             generateFixtures($group_B_pairs, "B", $tournament_id, $subcat);
+
+            $tournament = Tournament::find($id);
+            $tournament->status = 2;
+            $tournament->save();
 
             return redirect('/host')->with('success', "Successfully initialized tournament");
 

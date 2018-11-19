@@ -21,7 +21,10 @@
 							</p>
 						</div>
 						<div class="col-sm-5">
-							<button class="btn btn-primary">Enter Tournament Dashboard</button>
+							<form action="/host/tournamentdashboard/{{$o->id}}" method="GET">
+								@csrf
+								<button type="submit" class="btn btn-primary">Enter Tournament Dashboard</button>
+							</form>
 						</div>
 					</div>
 				</div>

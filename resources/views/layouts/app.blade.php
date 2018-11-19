@@ -26,10 +26,6 @@
         .hide-view {
             display: none !important;
         }
-
-        .circle-button:hover {
-            cursor:pointer;
-        }
     </style>
 
 </head>
