@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2018 at 09:23 AM
+-- Generation Time: Nov 20, 2018 at 09:29 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -30,17 +30,37 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `fixtures` (
   `id` int(10) UNSIGNED NOT NULL,
-  `tournament_subcategory_id` int(10) UNSIGNED NOT NULL,
+  `tournament_id` int(10) UNSIGNED NOT NULL,
+  `subcategory_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `a_team` int(10) UNSIGNED NOT NULL,
   `b_team` int(10) UNSIGNED NOT NULL,
-  `a_score` int(10) UNSIGNED NOT NULL,
-  `b_score` int(10) UNSIGNED NOT NULL,
+  `a_score` int(10) UNSIGNED DEFAULT NULL,
+  `b_score` int(10) UNSIGNED DEFAULT NULL,
   `match_order` int(10) UNSIGNED NOT NULL,
-  `status_id` int(10) UNSIGNED NOT NULL,
-  `fixture_type_id` int(10) UNSIGNED NOT NULL,
+  `fixture_status_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fixture_type_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fixtures`
+--
+
+INSERT INTO `fixtures` (`id`, `tournament_id`, `subcategory_id`, `group`, `a_team`, `b_team`, `a_score`, `b_score`, `match_order`, `fixture_status_id`, `fixture_type_id`, `created_at`, `updated_at`) VALUES
+(13, 22, 'MO', 'A', 35, 30, 2, 0, 1, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(14, 22, 'MO', 'A', 35, 29, 1, 1, 2, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(15, 22, 'MO', 'A', 35, 34, 3, 2, 3, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(16, 22, 'MO', 'A', 30, 29, 0, 6, 4, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(17, 22, 'MO', 'A', 30, 34, 3, 3, 5, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(18, 22, 'MO', 'A', 29, 34, 4, 2, 6, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(19, 22, 'MO', 'B', 33, 28, 2, 2, 1, 'S', 'G', '2018-11-19 22:28:46', '2018-11-19 22:28:46'),
+(20, 22, 'MO', 'B', 33, 32, 1, 0, 2, 'S', 'G', '2018-11-19 22:28:47', '2018-11-19 22:28:47'),
+(21, 22, 'MO', 'B', 33, 31, 1, 1, 3, 'S', 'G', '2018-11-19 22:28:47', '2018-11-19 22:28:47'),
+(22, 22, 'MO', 'B', 28, 32, 6, 2, 4, 'S', 'G', '2018-11-19 22:28:47', '2018-11-19 22:28:47'),
+(23, 22, 'MO', 'B', 28, 31, 0, 3, 5, 'S', 'G', '2018-11-19 22:28:47', '2018-11-19 22:28:47'),
+(24, 22, 'MO', 'B', 32, 31, 1, 2, 6, 'S', 'G', '2018-11-19 22:28:47', '2018-11-19 22:28:47');
 
 -- --------------------------------------------------------
 
@@ -49,11 +69,19 @@ CREATE TABLE `fixtures` (
 --
 
 CREATE TABLE `fixture_statuses` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fixture_status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fixture_statuses`
+--
+
+INSERT INTO `fixture_statuses` (`id`, `fixture_status`, `created_at`, `updated_at`) VALUES
+('C', 'completed', NULL, NULL),
+('S', 'scheduled', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -62,11 +90,20 @@ CREATE TABLE `fixture_statuses` (
 --
 
 CREATE TABLE `fixture_types` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fixture_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fixture_types`
+--
+
+INSERT INTO `fixture_types` (`id`, `fixture_type`, `created_at`, `updated_at`) VALUES
+('F', 'finals', NULL, NULL),
+('G', 'group-stage', NULL, NULL),
+('S', 'semi-finals', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -94,14 +131,19 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (33, '2018_11_05_074723_create_tournament_statuses_table', 1),
 (34, '2018_11_05_074831_create_subcategories_table', 1),
 (35, '2018_11_05_074903_create_tournament_subcategories_table', 1),
-(36, '2018_11_05_074927_create_fixtures_table', 1),
-(37, '2018_11_05_074950_create_fixture_types_table', 1),
-(38, '2018_11_05_075015_create_fixture_statuses', 1),
 (41, '2018_11_10_103005_add_location_to_tournaments_table', 2),
 (42, '2018_11_10_125435_add_user_id_column_to_tournaments', 2),
 (43, '2018_11_13_065757_create_participants_tournaments_table', 3),
 (46, '2018_11_13_152732_drop_tournament_subcategory_column_from_teams', 4),
-(47, '2018_11_13_152814_add_tour_id_and_subcat_id_on_teams', 4);
+(47, '2018_11_13_152814_add_tour_id_and_subcat_id_on_teams', 4),
+(48, '2018_11_19_121238_add_team_registration_status_table', 5),
+(49, '2018_11_19_121315_add_team_registration_status_column', 5),
+(50, '2018_11_19_123543_add_tournament_id_column_to_players_table', 6),
+(51, '2018_11_19_153301_add_division_group_column_on_teams_table', 7),
+(53, '2018_11_19_194725_create_fixture_types_table', 8),
+(54, '2018_11_19_194726_create_fixture_statuses', 8),
+(57, '2018_11_19_194730_create_fixtures_table', 9),
+(58, '2018_11_20_061417_add_group_column_to_teams_table', 10);
 
 -- --------------------------------------------------------
 
@@ -122,7 +164,7 @@ CREATE TABLE `participants_tournaments` (
 --
 
 INSERT INTO `participants_tournaments` (`id`, `tournament_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(8, 15, 2, '2018-11-13 21:22:44', '2018-11-13 21:22:44');
+(11, 22, 2, '2018-11-19 22:21:59', '2018-11-19 22:21:59');
 
 -- --------------------------------------------------------
 
@@ -145,6 +187,7 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `players` (
   `id` int(10) UNSIGNED NOT NULL,
   `team_id` int(10) UNSIGNED NOT NULL,
+  `tournament_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_of_birth` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -155,31 +198,71 @@ CREATE TABLE `players` (
 -- Dumping data for table `players`
 --
 
-INSERT INTO `players` (`id`, `team_id`, `name`, `date_of_birth`, `created_at`, `updated_at`) VALUES
-(17, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(18, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(19, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(20, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(21, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(22, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(23, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(24, 15, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(25, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(26, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(27, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(28, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(29, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(30, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(31, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(32, 16, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(33, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(34, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(35, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(36, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(37, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(38, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(39, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25'),
-(40, 17, 'Jason Dela Torre', '1990-12-12', '2018-11-13 21:23:25', '2018-11-13 21:23:25');
+INSERT INTO `players` (`id`, `team_id`, `tournament_id`, `name`, `date_of_birth`, `created_at`, `updated_at`) VALUES
+(156, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(157, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(158, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(159, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(160, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(161, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(162, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(163, 28, 22, 'Sample name', '1990-12-12', '2018-11-19 22:21:59', '2018-11-19 22:21:59'),
+(164, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(165, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(166, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(167, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(168, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(169, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(170, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(171, 29, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:08', '2018-11-19 22:22:08'),
+(172, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(173, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(174, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(175, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(176, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(177, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(178, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(179, 30, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:18', '2018-11-19 22:22:18'),
+(180, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(181, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(182, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(183, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(184, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(185, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(186, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(187, 31, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:26', '2018-11-19 22:22:26'),
+(188, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(189, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(190, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(191, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(192, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(193, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(194, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(195, 32, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:35', '2018-11-19 22:22:35'),
+(196, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(197, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(198, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(199, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(200, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(201, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(202, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(203, 33, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:43', '2018-11-19 22:22:43'),
+(204, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(205, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(206, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(207, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(208, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(209, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(210, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(211, 34, 22, 'Sample name', '1990-12-12', '2018-11-19 22:22:52', '2018-11-19 22:22:52'),
+(212, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(213, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(214, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(215, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(216, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(217, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(218, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01'),
+(219, 35, 22, 'Sample name', '1990-12-12', '2018-11-19 22:23:01', '2018-11-19 22:23:01');
 
 -- --------------------------------------------------------
 
@@ -221,21 +304,49 @@ CREATE TABLE `teams` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `tournament_id` int(10) UNSIGNED NOT NULL,
   `subcategory_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group` char(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `team_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `coach_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `team_registration_status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subcategory_group` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`id`, `user_id`, `tournament_id`, `subcategory_id`, `team_name`, `coach_name`, `mobile_number`, `created_at`, `updated_at`) VALUES
-(15, 2, 15, 'U16', 'sampleteam', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:22:44', '2018-11-13 21:22:44'),
-(16, 2, 15, 'MO', 'asasasa', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:22:58', '2018-11-13 21:22:58'),
-(17, 2, 15, 'U18', 'testteam', 'Jason Dela Torre', '0917-123-4567', '2018-11-13 21:23:25', '2018-11-13 21:23:25');
+INSERT INTO `teams` (`id`, `user_id`, `tournament_id`, `subcategory_id`, `group`, `team_name`, `coach_name`, `mobile_number`, `created_at`, `updated_at`, `team_registration_status`, `subcategory_group`) VALUES
+(28, 2, 22, 'MO', 'B', 'team1', '1111', '0917-123-4567', '2018-11-19 22:21:59', '2018-11-19 22:28:46', 'A', NULL),
+(29, 2, 22, 'MO', 'A', 'team2', '2222', '0917-123-4567', '2018-11-19 22:22:08', '2018-11-19 22:28:46', 'A', NULL),
+(30, 2, 22, 'MO', 'A', 'team3', '3333', '0917-123-4567', '2018-11-19 22:22:18', '2018-11-19 22:28:46', 'A', NULL),
+(31, 2, 22, 'MO', 'B', 'team4', '4444', '0917-123-4567', '2018-11-19 22:22:26', '2018-11-19 22:28:46', 'A', NULL),
+(32, 2, 22, 'MO', 'B', 'team5', '5555', '0917-123-4567', '2018-11-19 22:22:35', '2018-11-19 22:28:46', 'A', NULL),
+(33, 2, 22, 'MO', 'B', 'team6', '6666', '0917-123-4567', '2018-11-19 22:22:43', '2018-11-19 22:28:46', 'A', NULL),
+(34, 2, 22, 'MO', 'A', 'team7', '7777', '0917-123-4567', '2018-11-19 22:22:52', '2018-11-19 22:28:46', 'A', NULL),
+(35, 2, 22, 'MO', 'A', 'team8', '8888', '0917-123-4567', '2018-11-19 22:23:01', '2018-11-19 22:28:46', 'A', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `team_registration_statuses`
+--
+
+CREATE TABLE `team_registration_statuses` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `team_registration_statuses`
+--
+
+INSERT INTO `team_registration_statuses` (`id`, `status`) VALUES
+('A', 'Accepted'),
+('P', 'Pending'),
+('R', 'Rejected');
 
 -- --------------------------------------------------------
 
@@ -260,9 +371,7 @@ CREATE TABLE `tournaments` (
 --
 
 INSERT INTO `tournaments` (`id`, `name`, `location`, `user_id`, `date_start`, `date_end`, `status`, `created_at`, `updated_at`) VALUES
-(15, 'ore', 'philippines', 1, '2018-11-20', '2018-11-20', 1, '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(16, 'jason', 'loca1', 1, '2018-11-12', '2018-11-21', 2, '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
-(17, 'new tournament', 'tournament1', 1, '2018-11-16', '2018-11-16', 1, '2018-11-11 20:50:27', '2018-11-11 20:50:27');
+(22, 'newTournamentSample', 'philippines', 1, '2018-11-22', '2018-11-22', 2, '2018-11-19 22:21:31', '2018-11-19 22:28:47');
 
 -- --------------------------------------------------------
 
@@ -305,42 +414,14 @@ CREATE TABLE `tournament_subcategories` (
 --
 
 INSERT INTO `tournament_subcategories` (`id`, `tournament_id`, `subcategory_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 'U16', '2018-11-10 03:42:32', '2018-11-10 03:42:32'),
-(2, 3, 'U17', '2018-11-10 03:42:32', '2018-11-10 03:42:32'),
-(3, 3, 'U18', '2018-11-10 03:42:32', '2018-11-10 03:42:32'),
-(4, 3, 'MO', '2018-11-10 03:42:32', '2018-11-10 03:42:32'),
-(5, 10, 'U16', '2018-11-10 03:48:04', '2018-11-10 03:48:04'),
-(6, 10, 'U17', '2018-11-10 03:48:04', '2018-11-10 03:48:04'),
-(7, 10, 'U18', '2018-11-10 03:48:04', '2018-11-10 03:48:04'),
-(8, 10, 'MO', '2018-11-10 03:48:04', '2018-11-10 03:48:04'),
-(9, 11, 'MO', '2018-11-10 03:49:00', '2018-11-10 03:49:00'),
-(10, 29, 'MO', '2018-11-10 03:50:24', '2018-11-10 03:50:24'),
-(11, 12, 'U10', '2018-11-10 03:51:16', '2018-11-10 03:51:16'),
-(12, 12, 'U13', '2018-11-10 03:51:16', '2018-11-10 03:51:16'),
-(13, 12, 'U15', '2018-11-10 03:51:16', '2018-11-10 03:51:16'),
-(14, 12, 'U18', '2018-11-10 03:51:16', '2018-11-10 03:51:16'),
-(15, 13, 'U10', '2018-11-10 03:52:04', '2018-11-10 03:52:04'),
-(16, 13, 'U13', '2018-11-10 03:52:04', '2018-11-10 03:52:04'),
-(17, 13, 'U15', '2018-11-10 03:52:04', '2018-11-10 03:52:04'),
-(18, 13, 'U18', '2018-11-10 03:52:04', '2018-11-10 03:52:04'),
-(19, 13, 'MO', '2018-11-10 03:52:04', '2018-11-10 03:52:04'),
-(20, 14, 'U17', '2018-11-10 04:25:11', '2018-11-10 04:25:11'),
-(21, 14, 'U18', '2018-11-10 04:25:11', '2018-11-10 04:25:11'),
-(22, 14, 'MO', '2018-11-10 04:25:11', '2018-11-10 04:25:11'),
-(23, 15, 'U15', '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(24, 15, 'U16', '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(25, 15, 'U17', '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(26, 15, 'U18', '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(27, 15, 'MO', '2018-11-10 04:59:09', '2018-11-10 04:59:09'),
-(28, 16, 'U16', '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
-(29, 16, 'U17', '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
 (30, 16, 'U18', '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
 (31, 16, 'MO', '2018-11-10 05:02:49', '2018-11-10 05:02:49'),
 (32, 17, 'U14', '2018-11-11 20:50:27', '2018-11-11 20:50:27'),
 (33, 17, 'U15', '2018-11-11 20:50:27', '2018-11-11 20:50:27'),
 (34, 17, 'U16', '2018-11-11 20:50:27', '2018-11-11 20:50:27'),
 (35, 17, 'U18', '2018-11-11 20:50:27', '2018-11-11 20:50:27'),
-(36, 17, 'MO', '2018-11-11 20:50:27', '2018-11-11 20:50:27');
+(36, 17, 'MO', '2018-11-11 20:50:27', '2018-11-11 20:50:27'),
+(47, 22, 'MO', '2018-11-19 22:21:31', '2018-11-19 22:21:31');
 
 -- --------------------------------------------------------
 
@@ -366,8 +447,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `organization`, `email`, `email_verified_at`, `password`, `user_type_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Jason Dela Torre', 'xs', 'a@a.com', NULL, '$2y$10$WMdKHa7nIQz4eqZs9XPiDOWYjNBcKtQJB51L10szFbf9nLcZRfvWW', 1, 'ygNAMAWr5srhOmeBtSz4YWR6OJR3xaCoTMC5b3VQy71wlQJFvG9jBnpiVGb2', '2018-11-09 19:30:13', '2018-11-09 19:30:13'),
-(2, 'sdkpf', 'lol', 'b@b.com', NULL, '$2y$10$PcKstzJVcAC.lYjyQCBHMeEAndyRbEZUPOlfvNcERau0Y3YVtwAmq', 2, 'o8iYmv3oEh46S4DbghisQvhSqi7mnMhLw8OU7MyXIuQHl4DHDYBiE3jY9Xr4', '2018-11-09 19:47:34', '2018-11-09 19:47:34');
+(1, 'Jason Dela Torre', 'xs', 'a@a.com', NULL, '$2y$10$WMdKHa7nIQz4eqZs9XPiDOWYjNBcKtQJB51L10szFbf9nLcZRfvWW', 1, 'gJSfPQH4XxWtpF2GhExwtoT2OuK7AhVLvfFcgpwTfFiWUdXpzPqI8ogORjA8', '2018-11-09 19:30:13', '2018-11-09 19:30:13'),
+(2, 'sdkpf', 'lol', 'b@b.com', NULL, '$2y$10$PcKstzJVcAC.lYjyQCBHMeEAndyRbEZUPOlfvNcERau0Y3YVtwAmq', 2, 'CTnbjpzogF2MxUkRqvZzW5FwY8xMjJbiyP11XXPOWFaQ0Odlqb7UJo61dakA', '2018-11-09 19:47:34', '2018-11-09 19:47:34');
 
 -- --------------------------------------------------------
 
@@ -396,13 +477,13 @@ ALTER TABLE `fixtures`
 -- Indexes for table `fixture_statuses`
 --
 ALTER TABLE `fixture_statuses`
-  ADD PRIMARY KEY (`id`);
+  ADD UNIQUE KEY `fixture_statuses_id_unique` (`id`);
 
 --
 -- Indexes for table `fixture_types`
 --
 ALTER TABLE `fixture_types`
-  ADD PRIMARY KEY (`id`);
+  ADD UNIQUE KEY `fixture_types_id_unique` (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -439,6 +520,13 @@ ALTER TABLE `subcategories`
 --
 ALTER TABLE `teams`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `team_registration_statuses`
+--
+ALTER TABLE `team_registration_statuses`
+  ADD UNIQUE KEY `team_registration_statuses_id_unique` (`id`),
+  ADD UNIQUE KEY `team_registration_statuses_status_unique` (`status`);
 
 --
 -- Indexes for table `tournaments`
@@ -479,49 +567,37 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `fixtures`
 --
 ALTER TABLE `fixtures`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `fixture_statuses`
---
-ALTER TABLE `fixture_statuses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `fixture_types`
---
-ALTER TABLE `fixture_types`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `participants_tournaments`
 --
 ALTER TABLE `participants_tournaments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
 --
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tournaments`
 --
 ALTER TABLE `tournaments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tournament_statuses`
@@ -533,7 +609,7 @@ ALTER TABLE `tournament_statuses`
 -- AUTO_INCREMENT for table `tournament_subcategories`
 --
 ALTER TABLE `tournament_subcategories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `users`
