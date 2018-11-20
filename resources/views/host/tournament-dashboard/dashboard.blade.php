@@ -17,7 +17,7 @@
 			<h1>Name: {{$tournament->name}}</h1>
 		</div>
 
-		<div class="row">
+		<div class="row mb-4">
 			@foreach($tournament->subcategories as $subcat)
 				<div class="col-sm-4">
 					<div class="card">
@@ -29,6 +29,7 @@
 			@endforeach
 		</div>
 
+		
 		{{-- RESTRUCTURE THIS PART - move to another file --}}
 		@foreach($tournament->subcategories as $subcat)
 			{{-- hide row --}}
@@ -36,13 +37,102 @@
 				<div class="col-sm-12 mb-3">
 					<div class="row">
 						{{-- Group A Table --}}
-						<div class="col-sm-6">
-							
+						<div class="col-sm-12">
+							<h5>Group A Table</h5>
+							<table class="table table-bordered">
+								<colgroup>
+						            <col class="col-md-4">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						        </colgroup>
+								<thead>
+									<tr>
+										<th scope="col">Team Name</th>
+										<th scope="col">P</th>
+										<th scope="col">W</th>
+										<th scope="col">D</th>
+										<th scope="col">L</th>
+										<th scope="col">GF</th>
+										<th scope="col">GA</th>
+										<th scope="col">GD</th>
+										<th scope="col">PTS</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($group_tables[$subcat->id]["A"] as $team => $data)
+										<tr>
+											<th scope="row">{{$team_info[$team]['team_name']}}</th>
+											<td>{{$data['played']}}</td>
+											<td>{{$data['wins']}}</td>
+											<td>{{$data['draws']}}</td>
+											<td>{{$data['losses']}}</td>
+											<td>{{$data['goals_for']}}</td>
+											<td>{{$data['goals_against']}}</td>
+											<td>{{$data['goal_difference']}}</td>
+											<td>{{$data['points']}}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
 
 						{{-- Group B Table --}}
-						<div class="col-sm-6">
-							
+						<div class="col-sm-12">
+							<h5>Group B Table</h5>
+							<table class="table table-bordered">
+								<colgroup>
+						            <col class="col-md-2">
+						            <col class="col-md-3">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						            <col class="col-md-1">
+						        </colgroup>
+								<thead>
+									<tr>
+										<th scope="col">Team Name</th>
+										<th scope="col">Organization</th>
+										<th scope="col">P</th>
+										<th scope="col">W</th>
+										<th scope="col">D</th>
+										<th scope="col">L</th>
+										<th scope="col">GF</th>
+										<th scope="col">GA</th>
+										<th scope="col">GD</th>
+										<th scope="col">PTS</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($group_tables[$subcat->id]["B"] as $team => $data)
+										<tr>
+											<th scope="row">
+												<h5>{{$team_info[$team]['team_name']}}</h5>
+											</th>
+											<th scope="row">
+												<h5>{{$team_info[$team]['organization']}}</h5>
+											</th>
+											<td>{{$data['played']}}</td>
+											<td>{{$data['wins']}}</td>
+											<td>{{$data['draws']}}</td>
+											<td>{{$data['losses']}}</td>
+											<td>{{$data['goals_for']}}</td>
+											<td>{{$data['goals_against']}}</td>
+											<td>{{$data['goal_difference']}}</td>
+											<td>{{$data['points']}}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

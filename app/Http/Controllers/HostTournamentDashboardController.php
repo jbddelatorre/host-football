@@ -24,6 +24,71 @@ class HostTournamentDashboardController extends Controller
  		$subcategories = $tournament->subcategories;
  		$group_tables = [];
 
+	 	function initializeTable($group, $subcat_id, $group_tables) {
+			$group_teams = Team::where('group', $group)->get();
+			foreach($group_teams as $team) {
+				if (!array_key_exists($team->id, $group_tables[$subcat_id][$group])) {
+	 				$group_tables[$subcat_id][$group][$team->id] = array(
+	 					'played' => 0,
+	 					'wins' => 0,
+	 					'draws' => 0,
+	 					'losses' => 0,
+	 					'goals_for' => 0,
+	 					'goals_against' => 0,
+	 					'goal_difference' => 0,
+	 					'points' => 0,
+	 				);
+ 				}
+			}
+			return $group_tables;
+		}
+
+		function createScore($winner, $winnerscore, $loser, $loserscore, $groups, $g) {
+			//WINNER
+			$groups[$g][$winner]['played'] = $groups[$g][$winner]['played'] + 1;  
+			$groups[$g][$winner]['wins'] = $groups[$g][$winner]['wins'] + 1;
+			$groups[$g][$winner]['goals_for'] = $groups[$g][$winner]['goals_for'] + $winnerscore;
+			$groups[$g][$winner]['goals_against'] = $groups[$g][$winner]['goals_against'] + $loserscore;
+
+			$groups[$g][$winner]['goal_difference'] = $groups[$g][$winner]['goals_for'] - $groups[$g][$winner]['goals_against'];
+			$groups[$g][$winner]['points'] = 3*$groups[$g][$winner]['wins'] + $groups[$g][$winner]['draws']; 
+
+			//LOSER
+			$groups[$g][$loser]['played'] = $groups[$g][$loser]['played'] + 1;
+			$groups[$g][$loser]['losses'] = $groups[$g][$loser]['losses'] + 1;
+			$groups[$g][$loser]['goals_for'] = $groups[$g][$loser]['goals_for'] + $loserscore;
+			$groups[$g][$loser]['goals_against'] = $groups[$g][$loser]['goals_against'] + $winnerscore; 
+
+			$groups[$g][$loser]['goal_difference'] = $groups[$g][$loser]['goals_for'] - $groups[$g][$loser]['goals_against'];
+			$groups[$g][$loser]['points'] = 3*$groups[$g][$loser]['wins'] + $groups[$g][$loser]['draws'];  
+
+			return $groups;
+		}
+
+		function generateTable($group_tables, $tournament_id, $subcategory_id) {
+			$fixtures = Fixture::where('tournament_id', $tournament_id)->where('subcategory_id', $subcategory_id)->get();
+			
+			foreach($fixtures as $f) {
+				$a = $f->a_score;
+				$b = $f->b_score;
+				$at = $f->a_team;
+				$bt = $f->b_team;
+				$g = $f->group;
+
+				if($a > $b) {
+					//dd($group_tables["MO"]);
+					$group_tables[$subcategory_id] = createScore($at, $a, $bt, $b, $group_tables[$subcategory_id], $g);
+					//dd('winn');
+				}
+				if($a < $b) {
+					$group_tables[$subcategory_id] = createScore($bt, $b, $at, $a, $group_tables[$subcategory_id], $g);
+				}
+				if($a == $b) {
+					$group_tables[$subcategory_id] = createScore($at, $a, $bt, $b, $group_tables[$subcategory_id], $g);
+				}
+			}
+			return $group_tables;
+		}
 
  		foreach($subcategories as $subcat) {
  			$group_tables = [$subcat->id => array()];
@@ -34,39 +99,12 @@ class HostTournamentDashboardController extends Controller
  			$group_tables[$subcat->id]['A'] = array();
  			$group_tables[$subcat->id]['B'] = array();
 
- 			function initializeTable($group, $subcat_id, $group_tables) {
- 				$group_teams = Team::where('group', $group)->get();
-	 			foreach($group_teams as $team) {
-	 				 if (!array_key_exists($team->team_name, $group_tables[$subcat_id][$group])) {
-		 				$group_tables[$subcat_id][$group][$team->team_name] = array(
-		 					'wins' => 0,
-		 					'draw' => 0,
-		 					'loss' => 0,
-		 					'goal_for' => 0,
-		 					'goal_against' => 0,
-		 					'goal_difference' => 0,
-		 					'points' => 0,
-		 				);
-		 			}
-	 			}
-	 			return $group_tables;
- 			}
  			$group_tables = initializeTable("A", $subcat->id, $group_tables);
  			$group_tables = initializeTable("B", $subcat->id, $group_tables);
 
- 			function generateTable($group_tables, $tournament_id, $subcategory_id) {
- 				$fixtures = Fixture::where('tournament_id', $tournament_id)->where('subcategory_id', $subcategory_id)->get();
- 			
- 				foreach($fixtures as $match) {
- 					
- 				}
- 			}
-
- 			generateTable($group_tables, $id, $subcat->id);
+ 			$group_tables = generateTable($group_tables, $id, $subcat->id);
  		}
 
- 		dd($group_tables);
-
-    	return view('host.tournament-dashboard.dashboard', compact('tournament', 'team_info'));
+    	return view('host.tournament-dashboard.dashboard', compact('tournament', 'team_info', 'group_tables'));
     }
 }
