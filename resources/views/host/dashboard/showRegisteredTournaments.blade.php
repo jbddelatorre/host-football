@@ -90,8 +90,8 @@
 						</form>
 						<form action="/host/deletetournament/" method="POST">
 							{{$t->id}}
-							{{-- @csrf --}}
-							{{-- @method('DELETE') --}}
+							@csrf
+							@method('DELETE')
 							<button class="btn btn-danger mx-2">Delete Tournament</button>
 						</form>
 					</div>

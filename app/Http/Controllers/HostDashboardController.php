@@ -93,11 +93,13 @@ class HostDashboardController extends Controller
         $teams = Team::where('tournament_id', $id);
         $players = Player::where('tournament_id', $id);
         $participants_tournaments = ParticipantTournament::where('tournament_id', $id);
+        $fixtures = Fixture::where('tournament_id', $id);
 
         $players->delete();
         $teams->delete();
         $participants_tournaments->delete();
         $tournament_subcategories->delete();
+        $fixtures->delete();
         $tournament->delete();
 
         return redirect('/host')->with('success', "Successfully deleted Tournament!");
@@ -149,6 +151,17 @@ class HostDashboardController extends Controller
 
             $group_A = array_chunk($teams, $divider)[0];
             $group_B = array_chunk($teams, $divider)[1];
+
+            function addGroupToTeamTable($array, $group) {
+                foreach($array as $team_id) {
+                    $team = Team::find($team_id);
+                    $team->group = $group;
+                    $team->save();
+                }
+            }
+
+            addGroupToTeamTable($group_A, "A");
+            addGroupToTeamTable($group_B, "B");
 
             function pairUp($group, $array){
                 if(count($group) == 1) {

@@ -34,7 +34,17 @@
 			{{-- hide row --}}
 			<div class="row">
 				<div class="col-sm-12 mb-3">
-					
+					<div class="row">
+						{{-- Group A Table --}}
+						<div class="col-sm-6">
+							
+						</div>
+
+						{{-- Group B Table --}}
+						<div class="col-sm-6">
+							
+						</div>
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="row justify-content-center">

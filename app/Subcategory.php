@@ -8,6 +8,8 @@ class Subcategory extends Model
 {
     protected $table = 'subcategories';
 
+    public $incrementing = false;
+
     public function fixtures()
     {
         return $this->hasMany('App\Fixture');
