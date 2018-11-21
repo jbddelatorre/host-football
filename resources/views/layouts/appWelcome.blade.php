@@ -34,7 +34,7 @@
         }
         .margin-top-navbar {
             min-height: 100vh !important;
-            margin-top: 90px;
+            margin-top: 55px;
         }
 
         .hide-view {
@@ -67,8 +67,7 @@
         .navbar-brand {
             font-size: 24px;
         }
-        .navbar a, 
-        .navbar button.nav-button {
+        .navbar .nav-button {
             color:white !important;
         }
 
@@ -86,7 +85,7 @@
 </head>
 <body>
     <div id="app">
-        <nav id="appNav" class="wow fadeIn navbar navbar-expand-md navbar-dark bg-dark navbar-laravel fixed-nav">
+        <nav id="appNav" class="wow fadeIn navbar navbar-expand-md navbar-dark bg-dark navbar-laravel fixed-nav navbar-trans">
             <div class="container animated slideInUp ">
                 <a class="navbar-brand navbar-font" href="{{ url('/') }}">
                    {{'HOST FOOTBALL'}}
@@ -107,11 +106,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="btn btn-outline-secondary" href="{{ route('login') }}" style="border:none;">{{ __('Login') }}</a>
+                                <a class="btn btn-outline-secondary nav-button" href="{{ route('login') }}" style="border:none;">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="btn btn-outline-secondary" role="button" href="{{ route('register') }}" style="border:none;">{{ __('Register') }}</a>
+                                    <a class="btn btn-outline-secondary nav-button" role="button" href="{{ route('register') }}" style="border:none;">{{ __('Register') }}</a>
                                 @endif
                             </li>
                         @else

@@ -19,7 +19,7 @@
 
 @section('content')
 	<div class="container">
-		<div class="row">
+		<div class="row mt-4">
 			<div class="col-sm-3 text-center nav-link" div-link-id="showRegisteredTournaments">
 				<p>My Tournaments</p>
 			</div>
@@ -120,7 +120,9 @@ window.onload = () => {
 	const views = document.querySelectorAll('.dashboard-view');
 
 	tabs.forEach(t => {
+
 		t.addEventListener("click", () => {
+
 			const link_id = t.getAttribute('div-link-id')
 			const current_view = document.querySelector(`#${link_id}`)
 
