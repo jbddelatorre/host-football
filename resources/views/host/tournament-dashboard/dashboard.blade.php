@@ -13,6 +13,7 @@
 
 @section('content')
 	<div class="container">
+		<input id="tournamentIdInfo" readonly type="number" hidden value="{{$tournament->id}}">
 		<div class="row">
 			<h1>Name: {{$tournament->name}}</h1>
 		</div>
@@ -88,7 +89,7 @@
 							<table class="table table-bordered">
 								<colgroup>
 						            <col class="col-md-2">
-						            <col class="col-md-3">
+						            <col class="col-md-2">
 						            <col class="col-md-1">
 						            <col class="col-md-1">
 						            <col class="col-md-1">
@@ -118,9 +119,9 @@
 											<th scope="row">
 												<h5>{{$team_info[$team]['team_name']}}</h5>
 											</th>
-											<th scope="row">
+											<td>
 												<h5>{{$team_info[$team]['organization']}}</h5>
-											</th>
+											</td>
 											<td>{{$data['played']}}</td>
 											<td>{{$data['wins']}}</td>
 											<td>{{$data['draws']}}</td>
@@ -164,7 +165,7 @@
 														</div>
 														<div class="col-sm-4">
 															<div class="form-group">
-														    	<input type="number" class="form-control" name="" min=0>
+														    	<input disabled type="number" class="form-control" value="{{$fixture->a_score}}" data-score-A-id = {{$fixture->id}} min=0>
 														    	<label>Score</label>
 														 	 </div>
 														</div>
@@ -178,20 +179,21 @@
 													<div class="row">
 														<div class="col-sm-4">
 															<div class="form-group">
-														    	<input type="number" class="form-control" name="" min=0>
+														    	<input disabled type="number" class="form-control" value="{{$fixture->b_score}}" data-score-B-id = {{$fixture->id}} name="" min=0>
 														    	<label>Score</label>
 														 	 </div>
 														</div>
 														<div class="col-sm-8 text-center">
-															<h5>{{$team_info[$fixture->a_team]['team_name']}}</h5>
-															<p>{{$team_info[$fixture->a_team]['organization']}}</p>
+															<h5>{{$team_info[$fixture->b_team]['team_name']}}</h5>
+															<p>{{$team_info[$fixture->b_team]['organization']}}</p>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-sm-12 text-center">
-													<button class="btn btn-outline-success">Update Score</button>
+													<button class="btn btn-outline-info fixture-edit-button"  data-edit-fixture = "{{$fixture->id}}">Edit Score</button>
+													<button class="btn btn-outline-success fixture-submit-button" data-fixture-id = "{{$fixture->id}}">Update Score</button>
 												</div>
 											</div>
 										</div>
@@ -239,7 +241,7 @@
 														</div>
 														<div class="col-sm-4">
 															<div class="form-group">
-														    	<input type="number" class="form-control" name="" min=0>
+														    	<input disabled type="number" class="form-control" value="{{$fixture->a_score}}"name="" min=0 data-score-A-id = {{$fixture->id}}>
 														    	<label>Score</label>
 														 	 </div>
 														</div>
@@ -253,20 +255,21 @@
 													<div class="row">
 														<div class="col-sm-4">
 															<div class="form-group">
-														    	<input type="number" class="form-control" name="" min=0>
+														    	<input disabled type="number" value="{{$fixture->b_score}}"class="form-control" name="" min=0 data-score-B-id = {{$fixture->id}}>
 														    	<label>Score</label>
 														 	 </div>
 														</div>
 														<div class="col-sm-8 text-center">
-															<h5>{{$team_info[$fixture->a_team]['team_name']}}</h5>
-															<p>{{$team_info[$fixture->a_team]['organization']}}</p>
+															<h5>{{$team_info[$fixture->b_team]['team_name']}}</h5>
+															<p>{{$team_info[$fixture->b_team]['organization']}}</p>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-sm-12 text-center">
-													<button class="btn btn-outline-success">Update Score</button>
+													<button class="btn btn-outline-info fixture-edit-button"  data-edit-fixture = "{{$fixture->id}}">Edit Score</button>
+													<button class="btn btn-outline-success fixture-submit-button" data-fixture-id = "{{$fixture->id}}">Update Score</button>
 												</div>
 											</div>
 										</div>
@@ -333,6 +336,73 @@
 	subcatDom.forEach((s) => {
 		s.textContent = convertSubcategory(s.textContent.trim());
 	})
+
+
+	//DOM buttons
+	const editButton = document.querySelectorAll('.fixture-edit-button');
+	const submitButton = document.querySelectorAll('.fixture-submit-button');
+
+
+		//Remove disable from inputs
+
+		editButton.forEach(b => {
+			b.addEventListener("click", (e) => {
+				const fixture_id = e.target.attributes.getNamedItem('data-edit-fixture').value;
+				const input_A = document.querySelector(`[data-score-A-id="${fixture_id}"]`);
+				const input_B = document.querySelector(`[data-score-B-id="${fixture_id}"]`);
+
+				input_A.disabled = false;
+				input_B.disabled = false;
+			})
+		})
+
+		//Submit updated score input
+
+		submitButton.forEach(b => {
+			b.addEventListener("click", (e) => {
+				const fixture_id = e.target.attributes.getNamedItem('data-fixture-id').value;
+				const input_A = document.querySelector(`[data-score-A-id="${fixture_id}"]`);
+				const input_B = document.querySelector(`[data-score-B-id="${fixture_id}"]`);
+				if (input_A.disabled || input_B.disabled) {
+					return null;
+				}
+				
+				scoreA = input_A.value;
+				scoreB = input_B.value;
+
+				console.log(scoreA)
+				console.log(scoreB)
+				//AJAX CALL
+					
+				const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+				const url = `/host/tournamentdashboard/updatescore`;
+				
+				fetch(url, {
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json, text-plain, */*",
+						"X-Requested-With": "XMLHttpRequest",
+						"X-CSRF-TOKEN": token
+					},
+					method: 'post',
+					credentials: "same-origin",
+					body: JSON.stringify({
+						fixture_id: fixture_id,
+						a_score: scoreA,
+						b_score: scoreB,
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+					const tournamentId = document.querySelector('#tournamentIdInfo').value;
+					window.location.href = `/host/tournamentdashboard/${tournamentId}`;
+				})
+				.catch(err => console.log(err));
+				
+				input_A.disabled = true;
+				input_B.disabled = true;
+			})
+		})
 }
 
 </script>

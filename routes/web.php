@@ -26,6 +26,7 @@ Route::group(['middleware' => 'host'], function() {
 	Route::get('/host/initialize/{id}', 'HostDashboardController@initializeTournament');
 
 	Route::get('/host/tournamentdashboard/{id}', 'HostTournamentDashboardController@getTournamentFixtures');
+	Route::post('/host/tournamentdashboard/updatescore', 'HostTournamentDashboardController@updateScore');
 
 });
 

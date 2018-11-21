@@ -44,6 +44,27 @@ class HostTournamentDashboardController extends Controller
 		}
 
 		function createScore($winner, $winnerscore, $loser, $loserscore, $groups, $g) {
+
+			if($winnerscore == $loserscore) {
+				$groups[$g][$winner]['played'] = $groups[$g][$winner]['played'] + 1;
+				$groups[$g][$loser]['played'] = $groups[$g][$loser]['played'] + 1;
+				$groups[$g][$winner]['draws'] = $groups[$g][$winner]['draws'] + 1; 
+				$groups[$g][$loser]['draws'] = $groups[$g][$loser]['draws'] + 1; 
+
+				$groups[$g][$winner]['goals_for'] = $groups[$g][$winner]['goals_for'] + $winnerscore;
+				$groups[$g][$winner]['goals_against'] = $groups[$g][$winner]['goals_against'] + $loserscore;
+				$groups[$g][$loser]['goals_for'] = $groups[$g][$loser]['goals_for'] + $loserscore;
+				$groups[$g][$loser]['goals_against'] = $groups[$g][$loser]['goals_against'] + $winnerscore;
+
+				$groups[$g][$winner]['goal_difference'] = $groups[$g][$winner]['goals_for'] - $groups[$g][$winner]['goals_against'];
+				$groups[$g][$loser]['goal_difference'] = $groups[$g][$loser]['goals_for'] - $groups[$g][$loser]['goals_against'];
+
+				$groups[$g][$winner]['points'] = 3*$groups[$g][$winner]['wins'] + $groups[$g][$winner]['draws'];
+				$groups[$g][$loser]['points'] = 3*$groups[$g][$loser]['wins'] + $groups[$g][$loser]['draws']; 
+
+				return $groups;
+			}
+
 			//WINNER
 			$groups[$g][$winner]['played'] = $groups[$g][$winner]['played'] + 1;  
 			$groups[$g][$winner]['wins'] = $groups[$g][$winner]['wins'] + 1;
@@ -106,5 +127,16 @@ class HostTournamentDashboardController extends Controller
  		}
 
     	return view('host.tournament-dashboard.dashboard', compact('tournament', 'team_info', 'group_tables'));
+    }
+
+
+    function updateScore(Request $request) {
+    	$fixture = Fixture::find($request->fixture_id);
+    	$fixture->a_score = $request->a_score;
+    	$fixture->b_score = $request->b_score;
+    	$fixture->fixture_status_id = "C";
+    	$fixture->save();
+
+    	return response()->json();
     }
 }
