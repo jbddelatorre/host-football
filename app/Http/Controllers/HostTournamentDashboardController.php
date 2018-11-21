@@ -24,8 +24,8 @@ class HostTournamentDashboardController extends Controller
  		$subcategories = $tournament->subcategories;
  		$group_tables = [];
 
-	 	function initializeTable($group, $subcat_id, $group_tables) {
-			$group_teams = Team::where('group', $group)->get();
+	 	function initializeTable($group, $subcat_id, $group_tables, $id, $subcat) {
+			$group_teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat)->where('group', $group)->get();
 			foreach($group_teams as $team) {
 				if (!array_key_exists($team->id, $group_tables[$subcat_id][$group])) {
 	 				$group_tables[$subcat_id][$group][$team->id] = array(
@@ -97,6 +97,7 @@ class HostTournamentDashboardController extends Controller
 				$g = $f->group;
 
 				if($a > $b) {
+
 					//dd($group_tables["MO"]);
 					$group_tables[$subcategory_id] = createScore($at, $a, $bt, $b, $group_tables[$subcategory_id], $g);
 					//dd('winn');
@@ -104,7 +105,7 @@ class HostTournamentDashboardController extends Controller
 				if($a < $b) {
 					$group_tables[$subcategory_id] = createScore($bt, $b, $at, $a, $group_tables[$subcategory_id], $g);
 				}
-				if($a == $b) {
+				if($a == $b && $a != null && $b != null) {
 					$group_tables[$subcategory_id] = createScore($at, $a, $bt, $b, $group_tables[$subcategory_id], $g);
 				}
 			}
@@ -112,7 +113,7 @@ class HostTournamentDashboardController extends Controller
 		}
 
  		foreach($subcategories as $subcat) {
- 			$group_tables = [$subcat->id => array()];
+ 			$group_tables[$subcat->id] = array();
 
  			$groupA_fixtures = Fixture::where('tournament_id', $id)->where('subcategory_id', $subcat->id)->where('group', "A")->get();
  			$groupB_fixtures = Fixture::where('tournament_id', $id)->where('subcategory_id', $subcat->id)->where('group', "B")->get();
@@ -120,9 +121,8 @@ class HostTournamentDashboardController extends Controller
  			$group_tables[$subcat->id]['A'] = array();
  			$group_tables[$subcat->id]['B'] = array();
 
- 			$group_tables = initializeTable("A", $subcat->id, $group_tables);
- 			$group_tables = initializeTable("B", $subcat->id, $group_tables);
-
+ 			$group_tables = initializeTable("A", $subcat->id, $group_tables, $id, $subcat->id);
+ 			$group_tables = initializeTable("B", $subcat->id, $group_tables, $id, $subcat->id);
  			$group_tables = generateTable($group_tables, $id, $subcat->id);
  		}
 
@@ -136,7 +136,6 @@ class HostTournamentDashboardController extends Controller
     	$fixture->b_score = $request->b_score;
     	$fixture->fixture_status_id = "C";
     	$fixture->save();
-
     	return response()->json();
     }
 }

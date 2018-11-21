@@ -28,7 +28,7 @@
 									<div class="card-body">
 										<div class="card-title">
 											<h6>Currently Registered Teams</h6>
-											<h6>Number of teams: {{count($teams)}}</h6>
+											<h6>Total number teams applied: {{count($teams)}}</h6>
 										</div>
 										<div class="card-body">
 											@if(count($teams) > 0)
@@ -42,7 +42,7 @@
 												<hr>
 					
 												@foreach($teams as $team)
-													<div class="row my-2">
+													<div class="row my-2" row-team={{$team->id}}>
 														<div class="col-sm-3 text-center">{{$team->team_name}}</div>
 														<div class="col-sm-4 text-center">{{$team->user->organization}}</div>
 														<div team-id-status={{$team->id}} class="col-sm-2 text-center status-content">{{$team->team_registration_status}}</div>
@@ -88,8 +88,7 @@
 							@csrf
 							<button class="btn btn-primary mx-2">Initialize Tournament</button>
 						</form>
-						<form action="/host/deletetournament/" method="POST">
-							{{$t->id}}
+						<form action="/host/deletetournament/{{$t->id}}" method="POST">
 							@csrf
 							@method('DELETE')
 							<button class="btn btn-danger mx-2">Delete Tournament</button>
