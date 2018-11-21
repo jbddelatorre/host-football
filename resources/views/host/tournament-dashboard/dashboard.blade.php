@@ -101,7 +101,7 @@
 		{{-- RESTRUCTURE THIS PART - move to another file --}}
 		@foreach($tournament->subcategories as $subcat)
 
-			<div class="subcat-div hide-view" data-subcat-div = {{$subcat->id}}>
+			<div class="animated fadeIn subcat-div hide-view" data-subcat-div = {{$subcat->id}}>
 				@include('host.tournament-dashboard.fixtures');
 			</div>
 		@endforeach
@@ -160,15 +160,14 @@
 
 
 		//Remove disable from inputs
-
 		editButton.forEach(b => {
 			b.addEventListener("click", (e) => {
 				const fixture_id = e.target.attributes.getNamedItem('data-edit-fixture').value;
 				const input_A = document.querySelector(`[data-score-A-id="${fixture_id}"]`);
 				const input_B = document.querySelector(`[data-score-B-id="${fixture_id}"]`);
 
-				input_A.disabled = false;
-				input_B.disabled = false;
+				input_A.disabled = !input_A.disabled;
+				input_B.disabled = !input_B.disabled;
 			})
 		})
 

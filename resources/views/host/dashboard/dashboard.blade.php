@@ -20,28 +20,32 @@
 @section('content')
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-12">
-				<ul>
-					<li class="nav-link" div-link-id="showRegisteredTournaments">View Registered</li>
-					<li class="nav-link" div-link-id="registerTournament">Register</li>
-					<li class="nav-link" div-link-id="showOngoingTournaments">Show Ongoing</li>
-					<li class="nav-link" div-link-id="showTournamentsHistory">Tournament History</li>
-				</ul>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showRegisteredTournaments">
+				<p>My Tournaments</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="registerTournament">
+				<p>Register New Tournament</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showOngoingTournaments">
+				<p>Ongoing Tournaments</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showTournamentsHistory">
+				<p>Tournaments History</p>
 			</div>
 		</div>
 
 		@include('inc.messages')
 
-		<div class="dashboard-view" id="showRegisteredTournaments">
+		<div class="animated fadeIn dashboard-view" id="showRegisteredTournaments">
 			@include('host.dashboard.showRegisteredTournaments')
 		</div>
-		<div class="dashboard-view hide-view" id="registerTournament">
+		<div class="animated fadeIn dashboard-view hide-view" id="registerTournament">
 			@include('host.dashboard.registerTournament')
 		</div>
-		<div class="dashboard-view hide-view" id="showOngoingTournaments">
+		<div class="animated fadeIn dashboard-view hide-view" id="showOngoingTournaments">
 			@include('host.dashboard.showOngoingTournaments')
 		</div>
-		<div class="dashboard-view hide-view" id="showTournamentsHistory">
+		<div class="animated fadeIn dashboard-view hide-view" id="showTournamentsHistory">
 			@include('host.dashboard.showTournamentsHistory')
 		</div>
 	</div>

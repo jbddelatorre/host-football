@@ -22,9 +22,22 @@
     {{-- Font awesome --}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
+    {{-- Animate.css --}}
+    <link rel="stylesheet" href="{{asset('css/animate.css')}}">
+    
+    {{-- WOW js --}}
+    {{-- <script src="{{asset('js/wow.min.js')}}"></script> --}}
+
+    {{-- <script>new WOW().init();</script> --}}
+
     <style>
         .hide-view {
             display: none !important;
+        }
+
+        .dropdown-menu a:active {
+            background-color: #eee !important;
+            color:#000;
         }
     </style>
 
@@ -59,8 +72,28 @@
                                 @endif
                             </li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" href="/host" role="button" style="border:none;">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border:none;">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"  onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                  </div>
+                                </div>    
+                            </li>
+
+{{--                             <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -70,12 +103,11 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
+                            </li> --}}
                         @endguest
                     </ul>
                 </div>
