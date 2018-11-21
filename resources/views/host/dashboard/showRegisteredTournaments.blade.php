@@ -72,9 +72,14 @@
 												</div>
 											@endif
 										</div>
+										
+										<form action="/host/viewregistration/{{$t->id}}/{{$subcat}}" method="
+										GET">
+										@csrf
 										<div class="row justify-content-center">
-											<button class="btn btn-outline-info my-3">View Details</button>
+											<button type="submit" class="btn btn-outline-info my-3">View Details</button>
 										</div>
+										</form>
 									</div>
 								</div>
 							</div>

@@ -23,10 +23,13 @@ Route::group(['middleware' => 'host'], function() {
 
 	Route::post('/host/updateteamstatus/{team_id}', 'HostDashboardController@updateTeamStatus');
 
+	Route::get('/host/viewregistration/{id}/{subcat_id}', 'HostDashboardController@viewTeamRegistration');
+	
 	Route::get('/host/initialize/{id}', 'HostDashboardController@initializeTournament');
 
 	Route::get('/host/tournamentdashboard/{id}', 'HostTournamentDashboardController@getTournamentFixtures');
 	Route::post('/host/tournamentdashboard/updatescore', 'HostTournamentDashboardController@updateScore');
+
 
 });
 

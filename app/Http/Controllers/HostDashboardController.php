@@ -208,4 +208,12 @@ class HostDashboardController extends Controller
         return redirect('/host')->with('success', "Successfully initialized tournament");
     }
 
+
+    function viewTeamRegistration($id, $subcat_id) {
+        $teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat_id)->get();
+        $tournament = Tournament::find($id);
+        
+        return view('host.dashboard.teamDetails', compact('teams', 'subcat_id', 'tournament'));
+    }
+
 }
