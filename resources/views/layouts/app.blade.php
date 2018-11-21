@@ -26,9 +26,10 @@
     <link rel="stylesheet" href="{{asset('css/animate.css')}}">
     
     {{-- WOW js --}}
-    {{-- <script src="{{asset('js/wow.min.js')}}"></script> --}}
+    <script src="{{asset('js/wow.min.js')}}"></script>
+    <script>new WOW().init();</script>
 
-    {{-- <script>new WOW().init();</script> --}}
+
 
     <style>
         .hide-view {
@@ -39,15 +40,27 @@
             background-color: #eee !important;
             color:#000;
         }
+        .navbar {
+            z-index: 9999;
+            background-color: transparent;
+            background: transparent;
+            border-color: transparent;
+        }
+
+        .navbar a, 
+        .navbar button {
+            color:white !important;
+        }
     </style>
 
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="animated slideInUp navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                   {{'HOST FOOTBALL'}}
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -56,7 +69,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -64,16 +77,22 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="btn btn-outline-secondary" href="{{ route('login') }}" style="border:none;">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="btn btn-outline-secondary" role="button" href="{{ route('register') }}" style="border:none;">{{ __('Register') }}</a>
                                 @endif
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="btn btn-outline-secondary" href="/host" role="button" style="border:none;">
+                                <a class="btn btn-outline-secondary" href="
+                                 @if(Auth::user()->user_type_id == 1)
+                                        {{'/host'}}
+                                    @else
+                                        {{'/participant'}}
+                                    @endif
+                                " role="button" style="border:none;">
                                     Dashboard
                                 </a>
                             </li>
@@ -113,7 +132,7 @@
                 </div>
             </div>
         </nav>
-
+        @yield('landing');
         <main class="py-4">
             @yield('content')
         </main>

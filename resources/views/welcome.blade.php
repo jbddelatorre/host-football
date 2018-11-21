@@ -1,96 +1,150 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    #landingImage {
+        background-image: url({{ URL::asset('img/bg2.jpg')}});
+        background-size: contain;
+        width:100%;
+        height:100vh;
+        position: absolute;
+        top:0;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+    #opacityDiv {
+        height: 95vh;
+        width: 100%;
+        position: absolute;
+        top:0;
+        background-color: black;
+        opacity: 0.2;
+    }
 
-        <title>Laravel</title>
+    #landingContainer {
+        height: 95vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+    #landingContent {
+        margin-bottom: 180px;
+        z-index: 99;
+        color:white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+    #landingContent h1 {
+        text-align: center;
+        width: 100%;
+        border-bottom: 2px solid white;
+    }
 
-            .full-height {
-                height: 100vh;
-            }
+    #landingContent button {
+        width:200px;
+    }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    /*Features*/
+    .feature-image {
+        padding: 0 !important;
+    }
 
-            .position-ref {
-                position: relative;
-            }
+    .hover-info {
+        position: absolute;
+        bottom:0;
+        width:100%;
+        height:100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease-in;
+        opacity: 0;
+    }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+    .hover-info:hover {
+        opacity: 1;
+        z-index: 99;
+    }
 
-            .content {
-                text-align: center;
-            }
+</style>
 
-            .title {
-                font-size: 84px;
-            }
+@extends('layouts.app')
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+@section('landing')
+    <div id="landingImage">
+        <div id="opacityDiv">
+        </div>
+    </div>
+    <div id="landingContainer">
+        <div id="landingContent" class="wow slideInUp">
+            <h1><span id="spanHost">Host</span><span id="spanFootball">Football</span></h1>
+            <h3>Host a Tournament | Join a Tournament</h3>
+            <div id="landingButtonDiv">
+                <button class="btn btn-outline-light">Sign Up</button>
+                <button class="btn btn-outline-light">Log In</button>
+            </div>
+        </div>
+    </div>
+@endsection
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
+@section('content')
+    <section id="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="row align-items-center wow slideInLeft">
+                <div class="col-sm-5 text-center">
+                    <h3>Host a Tournament</h3>
+                    <p>Hosting a tournament has never been easier.</p>
                 </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div class="col-sm-7 feature-image">
+                    <img src="{{asset('img/host-feat.jpg')}}" alt="host feature" style="width:100%;">
+                    <div class="hover-info">
+                        <img src="{{asset('img/host-feat-2.jpg')}}" alt="host feature" style="width:100%;">
+                    </div>
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            </div>
+            <div class="row align-items-center wow slideInRight">
+                <div id="participantFeatureImage" class="col-sm-7 feature-image">
+                    <img src="{{asset('img/part-feat.jpg')}}" alt="host feature" style="width:100%;">
+                    <div class="hover-info">
+                        <img src="{{asset('img/part-feat-2.jpg')}}" alt="host feature" style="width:100%;">
+                    </div>
+                </div>
+                <div class="col-sm-5 text-center">
+                    <h3>Join a Tournament</h3>
+                    <p>Register and join tournaments.</p>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    </section>
+
+    <section id="service">
+        <div class="container">
+            <h2>service</h2>
+            <div class="row">
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="clients">
+        <div class="container">
+            <h2>clients</h2>
+            <div class="row">
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>contact</h2>
+            <div class="row">
+                
+            </div>
+        </div>
+    </section>
+
+@endsection
