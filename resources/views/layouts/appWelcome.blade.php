@@ -34,7 +34,7 @@
         }
         .margin-top-navbar {
             min-height: 100vh !important;
-            margin-top: 55px;
+            margin-top: 40px;
         }
 
         .hide-view {

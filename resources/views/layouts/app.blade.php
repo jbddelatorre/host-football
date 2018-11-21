@@ -67,8 +67,8 @@
         .navbar-brand {
             font-size: 24px;
         }
-        .navbar a, 
-        .navbar button.nav-button {
+        
+        .navbar .nav-button {
             color:white !important;
         }
 
@@ -107,11 +107,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="btn btn-outline-secondary" href="{{ route('login') }}" style="border:none;">{{ __('Login') }}</a>
+                                <a class="btn btn-outline-secondary nav-button" href="{{ route('login') }}" style="border:none;">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="btn btn-outline-secondary" role="button" href="{{ route('register') }}" style="border:none;">{{ __('Register') }}</a>
+                                    <a class="btn btn-outline-secondary nav-button" role="button" href="{{ route('register') }}" style="border:none;">{{ __('Register') }}</a>
                                 @endif
                             </li>
                         @else
