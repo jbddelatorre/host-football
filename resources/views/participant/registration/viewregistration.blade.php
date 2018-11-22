@@ -1,21 +1,41 @@
 @extends('layouts.app')
 
+<style>
+	.status-content {
+		font-weight: 500;
+		letter-spacing: 1px;
+		text-decoration: underline;
+	}
+</style>
+
 @section('content')
 	<div class="container">
-		<h2>Tournament Name: {{$tournament->name}}</h2>
-		<h4>Location: {{$tournament->location}}</h4>
-		<h6>Date: 
-			@if($tournament->date_start == $tournament->date_end)
-				{{$tournament->date_start}}
-			@else
-				{{$tournament->date_start}} to {{ $tournament->date_end }}
-			@endif
-		</h6>
-		<h2>Under organization: {{$organization}} </h2>
+		<div class="row">
+			<div class="col-sm-3"><h5>Tournament Name</h5></div>
+			<div class="col-sm-9"><h5>{{$tournament->name}}</h5></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><h5>Location</h5></div>
+			<div class="col-sm-9"><h5>{{$tournament->location}}</h5></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><h5>Date</h5></div>
+			<div class="col-sm-9"><h5>
+				@if($tournament->date_start == $tournament->date_end)
+					{{$tournament->date_start}}
+				@else
+					{{$tournament->date_start}} to {{ $tournament->date_end }}
+				@endif
+			</h5></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"><h5>Organization</h5></div>
+			<div class="col-sm-9"><h5>{{$organization}}</h5></div>
+		</div>
 
 		<div class="row justify-content-end">
 			<div class="col-sm-12">
-				<a class="btn btn-success float-right" href="/participant">Return to Dashboard</a>
+				<a class="btn btn-outline-success float-right" href="/participant">Return to Dashboard</a>
 			</div>
 		</div>
 
@@ -29,7 +49,7 @@
 								<div class="col-sm-12 col-md-3">
 									<h6 class="card-title">{{$team->team_name}}</h6>
 									<h6 class="card-title subcat-content">{{$team->subcategory_id}}</h6>
-									<h6 class="card-title">{{$team->team_registration_status}}</h6>
+									<h6 class="card-title status-content">{{$team->team_registration_status}}</h6>
 								</div>
 								<div class="col-sm-12 col-md-6">
 									<div class="row my-2">
@@ -59,13 +79,13 @@
 									<div class="row justify-content-center">
 										<form action="/participant/editregistration/{{$team->id}}" method="GET">
 											@csrf
-											<button type="submit" class="btn btn-primary">Edit Team Registration</button>
+											<button type="submit" class="btn btn-outline-primary">Edit Team Registration</button>
 										</form>
 										<form action="/participant/deleteteam/{{$team->id}}" method="POST">
 											@csrf
 											@method('DELETE')
 											<input type="number" hidden name="tournamentId" value={{$team->tournament_id}}>
-											<button type="submit" class="btn btn-danger">Delete Team Registration</button>
+											<button type="submit" class="btn btn-outline-danger">Delete Team Registration</button>
 										</form>
 									</div>
 								</div>
@@ -122,5 +142,33 @@
 		subcatDom.forEach((s) => {
 			s.textContent = convertSubcategory(s.textContent.trim());
 		})
+
+		//Team status update
+		const convertTeamStatus = (status) => {
+			switch(status) {
+				case 'A':
+					return 'Approved';
+					break;
+				case 'R':
+					return 'Rejected';
+					break;
+				case 'P':
+					return 'Pending';
+					break;
+				default:
+					return 'Undefined';
+			}
+		}
+		
+		const transformTeamStatus = () => {
+			const statusDom = document.querySelectorAll('.status-content')
+			console.log('zxc')
+			statusDom.forEach(s => {
+				console.log(s)
+				s.textContent = convertTeamStatus(s.textContent);
+			})
+		}
+
+		transformTeamStatus();
 	}
 </script>

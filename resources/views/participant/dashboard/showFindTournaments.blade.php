@@ -1,4 +1,4 @@
-<h2>Find a tournament</h2>
+<h2>Find A Tournament</h2>
 <div class="row">
 	<div class="col sm-12">
 		@foreach($tournaments as $t)
@@ -27,7 +27,7 @@
 						<div class="col-sm-3 ">
 							<div class="row justify-content-center">
 								<form method="GET" action="/participant/registration/{{$t->id}}">
-									<button type="submit" class="btn btn-primary">Register</button>
+									<button type="submit" class="btn btn-outline-primary">Register</button>
 								</form>
 							</div>
 						</div>

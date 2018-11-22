@@ -6,7 +6,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-sm-2">
-							<img style="width:100%;"src="{{asset($t->image_path)}}" alt="Tournament poster">
+							<img style="width:100%;" src="{{asset($t->image_path)}}" alt="Tournament poster">
 						</div>
 						<div class="col-sm-8">
 							<div class="row">

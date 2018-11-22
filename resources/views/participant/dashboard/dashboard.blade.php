@@ -1,15 +1,49 @@
 @extends('layouts.app')
+<style>
+	.nav-link {
+		transition: all 0.5s ease-in;
+	}
 
+	.nav-link:hover {
+		cursor: pointer;
+		background-color: #8dc26f73;
+		color: #000; 
+		letter-spacing: 2px;
+	}
+	.nav-link p {
+		margin-bottom: 0;
+	}
+
+	.nav-link {
+		border:1px solid #8DC26F;
+		padding: 24px 0;
+		font-size: 16px;
+		display: flex;
+		align-items: center;
+	}
+
+	.active-nav-link {
+		background-color: #8DC26F !important;
+		color:#eee;
+		font-weight: 400;
+		letter-spacing: 1px;
+	}
+</style>
 @section('content')
 
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-12">
-				<ul>
-					<li class="nav-link" div-link-id="showFindTournaments">Register</li>
-					<li class="nav-link" div-link-id="showRegisteredTournaments">View Registered</li>
-					<li class="nav-link" div-link-id="showTournamentHistory">Show Ongoing</li>
-				</ul>
+		<div class="row my-4 px-3">
+			<div class="col-sm-3 text-center nav-link" div-link-id="showFindTournaments">
+				<p>Find Tournaments</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showRegisteredTournaments">
+				<p>Registered Tournament</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showOngoingTournaments">
+				<p>Ongoing Tournaments</p>
+			</div>
+			<div class="col-sm-3 text-center nav-link" div-link-id="showTournamentHistory">
+				<p>Tournaments History</p>
 			</div>
 		</div>
 
@@ -20,6 +54,9 @@
 		</div>
 		<div class="dashboard-view hide-view" id="showRegisteredTournaments">
 			@include('participant.dashboard.showRegisteredTournaments')
+		</div>
+		<div class="dashboard-view hide-view" id="showOngoingTournaments">
+			@include('participant.dashboard.showOngoingTournaments')
 		</div>
 		<div class="dashboard-view hide-view" id="showTournamentHistory">
 			@include('participant.dashboard.showTournamentHistory')
@@ -89,6 +126,19 @@
 				v.classList.add('hide-view');
 			})
 			current_view.classList.remove('hide-view')
+		})
+	})
+
+	//Navlink bg change
+
+	const navLink = document.querySelectorAll('.nav-link');
+
+	navLink.forEach(n => {
+		n.addEventListener("click" , () => {
+			navLink.forEach(nv => {
+				nv.classList.remove("active-nav-link")
+			})
+			n.classList.add('active-nav-link')
 		})
 	})
 }

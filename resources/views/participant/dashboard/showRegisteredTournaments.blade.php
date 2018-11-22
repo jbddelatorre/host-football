@@ -1,7 +1,16 @@
 <h2>My Registered Tournaments</h2>
 <div class="row">
 	<div class="col sm-12">
-		@foreach($my_tournaments as $t)
+		@if(count($my_tournaments) == 0)
+			<div class="card bg-faded my-3 pt-2">
+				<div class="card-body">
+					<div class="row align-items-center justify-content-center">
+						<h6>No registered Tournaments</h6>
+					</div>
+				</div>
+			</div>
+		@else
+			@foreach($my_tournaments as $t)
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
 					<div class="row align-items-center">
@@ -44,7 +53,7 @@
 							<div class="row justify-content-center">
 								<form action="/participant/viewregistration/{{$t->id}}" method="GET">
 									@csrf
-									<button class="btn btn-primary">View Team Registration</button>
+									<button class="btn btn-outline-primary">View Team Registration</button>
 								</form>
 							</div>
 						</div>
@@ -52,5 +61,6 @@
 				</div>
 			</div>
 		@endforeach
+		@endif
 	</div>
 </div>

@@ -1,4 +1,4 @@
-<h2>My Tournament History</h2>
+<h2>Ongoing Tournaments</h2>
 <div class="row">
 	<div class="col sm-12">
 {{-- 		@foreach($my_tournaments as $t) --}}

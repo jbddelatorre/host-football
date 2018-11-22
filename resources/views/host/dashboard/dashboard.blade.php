@@ -175,7 +175,6 @@ window.onload = () => {
 			navLink.forEach(nv => {
 				nv.classList.remove("active-nav-link")
 			})
-			console.log(n)
 			n.classList.add('active-nav-link')
 		})
 	})
