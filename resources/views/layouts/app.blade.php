@@ -72,6 +72,13 @@
             color:white !important;
         }
 
+        .card-header {
+            background-color: #76b852;
+            color:white;
+            letter-spacing: 2px;
+            font-size: 18px;
+        }
+
         footer {
             text-align: center;
             background-color: #1f0a2e;

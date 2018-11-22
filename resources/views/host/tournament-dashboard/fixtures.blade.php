@@ -112,8 +112,8 @@
 						<div class="card my-2">
 							<div class="card-header">
 								<div class="row">
-									<div class="col-sm-6">Group {{$fixture->group}} Match # {{$fixture->match_order}}</div>
-									<div class="col-sm-6 text-right">Fixture type: <span class="fixture-type">{{$fixture->fixture_type->fixture_type}}</span></div>
+									<div class="col-sm-5">Group {{$fixture->group}} Match # {{$fixture->match_order}}</div>
+									<div class="col-sm-7 text-right">Fixture type: <span class="fixture-type">{{$fixture->fixture_type->fixture_type}}</span></div>
 								</div>
 							</div>
 
@@ -188,8 +188,8 @@
 						<div class="card my-2">
 							<div class="card-header">
 								<div class="row">
-									<div class="col-sm-6">Group {{$fixture->group}} Match # {{$fixture->match_order}}</div>
-									<div class="col-sm-6 text-right">Fixture type: <span class="fixture-type">{{$fixture->fixture_type->fixture_type}}</span></div>
+									<div class="col-sm-5">Group {{$fixture->group}} Match # {{$fixture->match_order}}</div>
+									<div class="col-sm-7 text-right">Fixture type: <span class="fixture-type">{{$fixture->fixture_type->fixture_type}}</span></div>
 								</div>
 							</div>
 

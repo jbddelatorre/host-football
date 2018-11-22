@@ -12,6 +12,35 @@
     .disable-circle-button:hover {
     	transform: translateY(0) !important;
     }
+	
+	.nav-link {
+		transition: all 0.5s ease-in;
+	}
+
+	.nav-link:hover {
+		cursor: pointer;
+		background-color: #8dc26f73;
+		color: #000; 
+		letter-spacing: 2px;
+	}
+	.nav-link p {
+		margin-bottom: 0;
+	}
+
+	.nav-link {
+		border:1px solid #8DC26F;
+		padding: 24px 0;
+		font-size: 16px;
+		display: flex;
+		align-items: center;
+	}
+
+	.active-nav-link {
+		background-color: #8DC26F !important;
+		color:#eee;
+		font-weight: 400;
+		letter-spacing: 1px;
+	}
 
 </style>
 
@@ -19,7 +48,7 @@
 
 @section('content')
 	<div class="container">
-		<div class="row mt-4">
+		<div class="row my-4 px-3">
 			<div class="col-sm-3 text-center nav-link" div-link-id="showRegisteredTournaments">
 				<p>My Tournaments</p>
 			</div>
@@ -136,6 +165,20 @@ window.onload = () => {
 
 	// Show Registered Tournaments View Script Functionalities
 	scriptShowRegisteredTournaments();
+
+	//Navlink bg change
+
+	const navLink = document.querySelectorAll('.nav-link');
+
+	navLink.forEach(n => {
+		n.addEventListener("click" , () => {
+			navLink.forEach(nv => {
+				nv.classList.remove("active-nav-link")
+			})
+			console.log(n)
+			n.classList.add('active-nav-link')
+		})
+	})
 }
 
 </script>
