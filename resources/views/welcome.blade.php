@@ -75,7 +75,7 @@
     }
 
     section {
-        padding: 64px 0;
+        padding: 54px 0;
     }
 
     section h2 {
@@ -114,7 +114,7 @@
         background-size: 100%;
         background-repeat: no-repeat; 
         opacity: 0.95; 
-        height:50vh;
+        height:45vh;
     }
 
     /*Service*/

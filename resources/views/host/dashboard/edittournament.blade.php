@@ -53,7 +53,14 @@
 						</div>
 					@endfor
 					<div class="checkbox">
-							<label><input style="margin-right:10px;" type="checkbox" id="MO" value="MO" name="subcategories[]">Men's Open</label>
+							<label><input style="margin-right:10px;" type="checkbox" id="MO" value="MO" name="subcategories[]"
+								@foreach($tournament->subcategories as $sub)
+									@if($sub->id == 'MO')
+										{{'checked'}}
+									@endif
+								@endforeach
+
+							>Men's Open</label>
 					</div>
 				</div>
 			</div>

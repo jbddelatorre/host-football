@@ -59,6 +59,11 @@
             /*display: none;*/
         }
 
+        .t-info-header {
+            font-weight: 600; 
+            padding-left: 12px;
+         }
+
         .fixed-nav {
             position: fixed;
             top:0;

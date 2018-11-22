@@ -8,11 +8,11 @@
 					<div class="row align-items-center">
 						<div class="col-sm-7">
 							<h6>Tournament Name</h6>
-							<p> {{ $o->name }}</p>
+							<p class="t-info-header">{{ $o->name }}</p>
 							<h6>Location:</h6>
-							<p> {{ $o->location }} </p>
+							<p class="t-info-header"> {{ $o->location }} </p>
 							<h6>Date:</h6>
-							<p>
+							<p class="t-info-header">
 								@if($o->date_start == $o->date_end)
 									{{$o->date_start}}
 								@else

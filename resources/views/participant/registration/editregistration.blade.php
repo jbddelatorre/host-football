@@ -44,7 +44,7 @@
 
 @section('content')
 	<div class="container">
-		<h2>Tournament Registration</h2>
+		<h2>Edit Tournament Registration</h2>
 		
 		<div class="row justify-content-end">
 			<div class="col-sm-12">
@@ -171,7 +171,7 @@
 
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button class="btn btn-primary" type="submit">Complete Registration</button>
+							<button class="btn btn-primary" type="submit">Edit Registration</button>
 						</div>
 					</div>
 

@@ -165,7 +165,7 @@
 
         @yield('landing')
         {{-- @yield('landing-content') --}}
-        <main class="margin-top-navbar">
+        <main>
             @yield('content')
         </main>
         <footer>

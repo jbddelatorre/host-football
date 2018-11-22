@@ -6,9 +6,12 @@
 				<div class="card-body">
 					<div class="row align-items-center">
 						<div class="col-sm-5">
-							<h6 class="card-title">{{$t->name}}</h6>
-							<h6 class="card-title">{{$t->location}}</h6>
-							<h6 class="card-title">
+							<p>Tournament Name</p>
+							<h6 class="card-title t-info-header">{{$t->name}}</h6>
+							<p>Location</p>
+							<h6 class="card-title t-info-header">{{$t->location}}</h6>
+							<p>Date</p>
+							<h6 class="card-title t-info-header">
 								@if($t->date_start == $t->date_end)
 									{{$t->date_start}}
 								@else

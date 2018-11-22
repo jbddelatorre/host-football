@@ -137,16 +137,43 @@ class ParticipantDashboardController extends Controller
             $old_players = Player::where('team_id', $request->teamId);
             $old_players->delete();
 
+            $players = Player::where('team_id', $request->teamId);
+            $players->delete();
+
             foreach($request->players as $p) {
                 $player = new Player;
                 $player->team_id = $request->teamId;
+                $player->tournament_id = $request->tournamentId;
                 $player->name = $p['name'];
                 $player->date_of_birth = $p['dob'];
                 $player->save();
             }
 
-            return redirect('/participant/viewregistration/'.$request->tournamentId)->with('success', "Successfully edited team!");
+            return redirect('/participant')->with('success', "Successfully edited team!");
         }
+    }
+
+    function editTeamRegistration(Request $request) {
+        $this->validate($request, [
+            'tournamentId' => 'required',
+            'subcategory' => 'required',
+            'teamname' => 'required|string',
+            'coachname' => 'required|string',
+            //'coachmobile' => 'required|regex:/(09)[0-9]{9}/',
+            'coachmobile' => 'required',
+            'players' => 'required|array|between:8,12',
+            'players.*.name' => 'required|string',
+            'players.*.dob' => 'required|date',
+        ],[
+            'tournamentId.required' => 'Please select a tournament.',
+            'subcategory.required' => 'Please a division to enter.',
+            'teamname.required' => 'Please enter a team name.',
+            'coachname.required' => 'Please enter name of coach.',
+            'coachmobile.required' => 'Please enter contact details of coach.',
+            'players.between' => 'Each team must have 8 - 12 registered players.',
+            'players.*.name.required' => 'Player name is required.',
+            'players.*.dob.required' => "Player date of birth is required.",
+        ]);
     }
 
 

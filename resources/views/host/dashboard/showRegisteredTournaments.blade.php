@@ -11,15 +11,15 @@
 						<div class="col-sm-8">
 							<div class="row">
 								<div class="col-sm-3">Tournament Name:</div>
-								<div class="col-sm-6">{{ $t->name }}</div>
+								<div class="col-sm-6 t-info-header">{{ $t->name }}</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-3">Location:</div>
-								<div class="col-sm-9">{{ $t->location }}</div>
+								<div class="col-sm-9 t-info-header">{{ $t->location }}</div>
 							</div>
 							<div class="row mb-4">
 								<div class="col-sm-3">Date:</div>
-								<div class="col-sm-9">
+								<div class="col-sm-9 t-info-header">
 									@if($t->date_start == $t->date_end)
 									{{$t->date_start}}
 								@else
@@ -140,6 +140,7 @@
 
 				</div>
 			</div>
+			<hr>
 		@endforeach
 	</div>
 </div>

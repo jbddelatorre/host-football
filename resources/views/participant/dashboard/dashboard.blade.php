@@ -49,16 +49,16 @@
 
 		@include('inc.messages')
 
-		<div class="dashboard-view" id="showFindTournaments">
+		<div class="dashboard-view animated fadeIn" id="showFindTournaments">
 			@include('participant.dashboard.showFindTournaments')
 		</div>
-		<div class="dashboard-view hide-view" id="showRegisteredTournaments">
+		<div class="dashboard-view hide-view animated fadeIn" id="showRegisteredTournaments">
 			@include('participant.dashboard.showRegisteredTournaments')
 		</div>
-		<div class="dashboard-view hide-view" id="showOngoingTournaments">
+		<div class="dashboard-view hide-view animated fadeIn" id="showOngoingTournaments">
 			@include('participant.dashboard.showOngoingTournaments')
 		</div>
-		<div class="dashboard-view hide-view" id="showTournamentHistory">
+		<div class="dashboard-view hide-view animated fadeIn" id="showTournamentHistory">
 			@include('participant.dashboard.showTournamentHistory')
 		</div>
 	</div>
