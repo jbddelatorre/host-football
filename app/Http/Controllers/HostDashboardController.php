@@ -83,6 +83,7 @@ class HostDashboardController extends Controller
     		$ts->subcategory_id = $sub;
     		$ts->save();
     	}
+
     	return redirect('/host')->with('success', 'Tournament '.$request->name.' Created!');
     }
 
@@ -214,6 +215,67 @@ class HostDashboardController extends Controller
         $tournament = Tournament::find($id);
         
         return view('host.dashboard.teamDetails', compact('teams', 'subcat_id', 'tournament'));
+    }
+
+
+    function editTournament($id) {
+        $tournament = Tournament::find($id);
+        return view('host.dashboard.edittournament', compact('tournament'));
+    }
+
+    function submitEditTournament(Request $request, $id) {
+        $this->validate($request, [
+            'name' => 'required',
+            'location' => 'required',
+            'startdate' => 'required',
+            'subcategories' => 'required|array|between:1,10',
+            'enddate' => 'required_without:onedaytournament|sometimes|after_or_equal:startdate',
+        ],[
+            'name.required' => 'Please enter a tournament name.',
+            'location.required' => 'Please enter a tournament location.',
+            'startdate.required' => 'Please specify tournament date.',
+            'subcategories.required' => 'Please check tournament division.',
+            'enddate.required_without' => 'Please specify tournament duration.',
+            'enddate.after_or_equal' => 'Make sure end date is correct.'
+        ]);
+
+
+        $tournament = Tournament::find($id);
+
+        foreach($tournament->subcategories as $sub) {
+            if(!in_array($sub->id, $request->subcategories)) {
+                return redirect('/host/edittournament/'.$id)->with('error', 'Cannot remove existing subcategories.');
+            }
+        }
+
+        $current_id = auth()->user()->id;
+
+        $tournament->name = $request->name;
+        $tournament->location = $request->location;
+        $tournament->user_id = $current_id;
+        $tournament->date_start = $request->startdate;
+
+        if($request->onedaytournament) {
+            $tournament->date_end = $request->startdate;
+        } else {
+            $tournament->date_end = $request->enddate;
+        }
+
+        $tournament->status = 1;
+        $tournament->save();
+
+        $arr_sub = $request->subcategories;
+
+        foreach($arr_sub as $sub) {
+            if(!in_array($sub, (array)$tournament->subcategories)) {
+                $ts = new TournamentSubcategory;
+                $ts->tournament_id = $id;
+                $ts->subcategory_id = $sub;
+                $ts->save();
+            }
+        }
+ 
+        return redirect('/host')->with('success', "Successfully edited tournament!");
     }
 
 }

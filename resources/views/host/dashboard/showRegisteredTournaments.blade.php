@@ -1,22 +1,61 @@
-<h2>Registered Tournaments</h2>
+<h2>My Tournaments</h2>
 
 <div class="row">
 	<div class="col-sm-12">
 		@foreach($tournaments as $t)
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
-					<h6>Tournament Name</h6>
-							<p> {{ $t->name }}</p>
-							<h6>Location:</h6>
-							<p> {{ $t->location }} </p>
-							<h6>Date:</h6>
-							<p>
-								@if($t->date_start == $t->date_end)
+					<div class="row">
+						<div class="col-sm-2">
+							<img src="" alt="">
+						</div>
+						<div class="col-sm-8">
+							<div class="row">
+								<div class="col-sm-3">Tournament Name:</div>
+								<div class="col-sm-6">{{ $t->name }}</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3">Location:</div>
+								<div class="col-sm-9">{{ $t->location }}</div>
+							</div>
+							<div class="row mb-4">
+								<div class="col-sm-3">Date:</div>
+								<div class="col-sm-9">
+									@if($t->date_start == $t->date_end)
 									{{$t->date_start}}
 								@else
 									{{$t->date_start}} to {{ $t->date_end }}
 								@endif
-							</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<form method="GET" action="/host/edittournament/{{$t->id}}">
+										@csrf
+										<button type="submit" class="btn btn-outline-danger">Edit Tournament</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+
+
+{{-- 					<h6>Tournament Name</h6>
+					<p> {{ $t->name }}</p>
+					<h6>Location:</h6>
+					<p> {{ $t->location }} </p>
+					<h6>Date:</h6>
+					<p>
+						@if($t->date_start == $t->date_end)
+							{{$t->date_start}}
+						@else
+							{{$t->date_start}} to {{ $t->date_end }}
+						@endif
+					</p> --}}
 					
 					<div class="row">
 						@foreach($tournament_ids[$t->id] as $subcat => $teams)
