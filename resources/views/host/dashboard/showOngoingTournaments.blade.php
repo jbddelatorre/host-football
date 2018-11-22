@@ -23,7 +23,7 @@
 						<div class="col-sm-5">
 							<form action="/host/tournamentdashboard/{{$o->id}}" method="GET">
 								@csrf
-								<button type="submit" class="btn btn-primary">Enter Tournament Dashboard</button>
+								<button type="submit" class="btn btn-outline-primary">Enter Tournament Dashboard</button>
 							</form>
 						</div>
 					</div>

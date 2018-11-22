@@ -20,6 +20,12 @@
 								@endif
 							</p>
 						</div>
+						<div class="col-sm-5">
+							<form action="/host/tournamentdashboard/gethistory/{{$c->id}}" method="GET">
+								@csrf
+								<button type="submit" class="btn btn-primary">View Tournament History</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

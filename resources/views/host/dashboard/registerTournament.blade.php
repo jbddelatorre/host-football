@@ -24,6 +24,10 @@
 					<label for="enddate">End Date</label>
 					<input type="date" class="form-control" id="enddate" name="enddate">
 				</div>
+				<div class="form-group">
+					<label for="poster">Upload Poster</label>
+					<input type="file" class="form-control" id="poster" name="poster">
+				</div>
 			</div>
 			<div class="col-sm-5">
 				<label for="name">Divisions</label>

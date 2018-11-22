@@ -130,12 +130,12 @@
 					<div class="row justify-content-center py-2">
 						<form action="/host/initialize/{{$t->id}}" method="GET">	
 							@csrf
-							<button class="btn btn-primary mx-2">Initialize Tournament</button>
+							<button class="btn btn-outline-primary mx-2">Initialize Tournament</button>
 						</form>
 						<form action="/host/deletetournament/{{$t->id}}" method="POST">
 							@csrf
 							@method('DELETE')
-							<button class="btn btn-danger mx-2">Delete Tournament</button>
+							<button class="btn btn-outline-danger mx-2">Delete Tournament</button>
 						</form>
 					</div>
 

@@ -72,19 +72,31 @@
 @section('content')
 	<div class="container">
 		<input id="tournamentIdInfo" readonly type="number" hidden value="{{$tournament->id}}">
-
+		<hr>
 		<div class="row">
-			<h1>Name: {{$tournament->name}}</h1>
+			<div class="col-sm-3"><h5>Tournament Name</h5></div>
+			<div class="col-sm-8"><h2>{{$tournament->name}}</h2></div>
 		</div>
+		<hr>
+		<div class="row">
+			<div class="col-sm-3"><h5>Tournament Location</h5></div>
+			<div class="col-sm-8"><h3>{{$tournament->location}}</h3></div>
+		</div>
+		<hr>
 
 		<div class="row">
 			<div class="col-sm-6 text-left my-4">
 				<a href="/host" class="btn btn-outline-primary">Return to Dashboard</a>
 			</div>
 			<div class="col-sm-6 text-right my-4">
-				<button class="btn btn-outline-primary">Complete Tournament</button>
+				<form method="POST" action="/host/tournamentdashboard/complete/{{$tournament->id}}">
+					@csrf
+					<button class="btn btn-outline-primary" >Complete Tournament</button>
+				</form>
 			</div>
 		</div>
+
+		@include('inc.messages')
 
 		<div class="row mb-4">
 			@foreach($tournament->subcategories as $subcat)

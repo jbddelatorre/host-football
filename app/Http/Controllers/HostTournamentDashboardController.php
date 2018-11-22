@@ -138,4 +138,25 @@ class HostTournamentDashboardController extends Controller
     	$fixture->save();
     	return response()->json();
     }
+
+    function completeTournament($id) {
+    	$tournament = Tournament::find($id);
+
+    	$fixtures = Fixture::where('tournament_id', $id)->get();
+
+    	foreach($fixtures as $f) {
+    		if($f->fixture_status_id == "S") {
+    			return redirect('/host/tournamentdashboard/'.$id)->with('error', "All fixtures must be played.");
+    		}
+    	}
+    	$tournament->status = 3;
+    	$tournament->save();
+
+    	return redirect('/host')->with('success', 'Successfully completed tournament!');
+    }
+
+
+    function getHistory($id) {
+    	return redirect('/host')->with('error', 'Sorry, feature is not yet available.');
+    }
 }

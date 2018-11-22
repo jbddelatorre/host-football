@@ -34,7 +34,9 @@ Route::group(['middleware' => 'host'], function() {
 	Route::get('/host/tournamentdashboard/{id}', 'HostTournamentDashboardController@getTournamentFixtures');
 	Route::post('/host/tournamentdashboard/updatescore', 'HostTournamentDashboardController@updateScore');
 
+	Route::post('/host/tournamentdashboard/complete/{id}', 'HostTournamentDashboardController@completeTournament');
 
+	Route::get('/host/tournamentdashboard/gethistory/{id}', 'HostTournamentDashboardController@getHistory');
 });
 
 Route::group(['middleware' => 'participant'], function() {
