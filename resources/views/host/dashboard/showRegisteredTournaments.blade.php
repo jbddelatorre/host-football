@@ -1,5 +1,4 @@
 <h2>My Tournaments</h2>
-
 <div class="row">
 	<div class="col-sm-12">
 		@foreach($tournaments as $t)
@@ -7,7 +6,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-sm-2">
-							<img src="" alt="">
+							<img style="width:100%;"src="{{asset($t->image_path)}}" alt="Tournament poster">
 						</div>
 						<div class="col-sm-8">
 							<div class="row">
@@ -146,7 +145,7 @@
 </div>
 
 <script>
-
+	
 	const scriptShowRegisteredTournaments = () => {
 		const convertTeamStatus = (status) => {
 			switch(status) {

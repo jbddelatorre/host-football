@@ -39,7 +39,6 @@ class HostDashboardController extends Controller
     }
 
     function registerTournament(Request $request) {
-
     	$this->validate($request, [
     		'name' => 'required',
     		'location' => 'required',
@@ -70,6 +69,14 @@ class HostDashboardController extends Controller
     		$tournament->date_end = $request->enddate;
     	}
 
+        if($request->hasFile('poster')) {
+            $ext = $request->poster->getClientOriginalExtension();
+            $request->poster->move('db-img', "$request->name"."$request->location.$ext");
+
+            $tournament->image_path = "db-img/$request->name"."$current_id.$ext";
+        } else {
+            $tournament->image_path = "db-img/default.png";
+        }
 
     	$tournament->status = 1;
 
@@ -260,6 +267,15 @@ class HostDashboardController extends Controller
             $tournament->date_end = $request->startdate;
         } else {
             $tournament->date_end = $request->enddate;
+        }
+
+        if($request->hasFile('poster')) {
+            $ext = $request->poster->getClientOriginalExtension();
+            $request->poster->move('db-img', "$request->name"."$request->location.$ext");
+
+            $tournament->image_path = "db-img/$request->name"."$current_id.$ext";
+        } else {
+            $tournament->image_path = "db-img/default.png";
         }
 
         $tournament->status = 1;

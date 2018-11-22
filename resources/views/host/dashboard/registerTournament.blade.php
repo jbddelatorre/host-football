@@ -1,5 +1,5 @@
 <h2>Create a new Tournament</h2>
-	<form id="formRegisterTournament" method="POST" action="/host/registertournament">
+	<form id="formRegisterTournament" method="POST" action="/host/registertournament" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
 			<div class="col-sm-7">
@@ -26,7 +26,7 @@
 				</div>
 				<div class="form-group">
 					<label for="poster">Upload Poster</label>
-					<input type="file" class="form-control" id="poster" name="poster">
+					<input type="file" class="form-control-file" id="poster" name="poster">
 				</div>
 			</div>
 			<div class="col-sm-5">
