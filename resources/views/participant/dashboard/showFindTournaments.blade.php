@@ -1,11 +1,25 @@
-<h2>Find A Tournament</h2>
+<h2>Tournament List</h2>
 <div class="row">
 	<div class="col sm-12">
+		@if(count($tournaments) == 0)
+			<div class="card bg-faded my-3 pt-2">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							There are currently no available tournaments as of now.
+						</div>
+					</div>
+				</div>
+			</div>
+		@else
 		@foreach($tournaments as $t)
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
 					<div class="row align-items-center">
-						<div class="col-sm-5">
+						<div class="col-sm-2">
+							<img style="width:100%; max-height:25%;" src="{{asset($t->image_path)}}" alt="Tournament poster">
+						</div>
+						<div class="col-sm-3">
 							<p>Tournament Name</p>
 							<h6 class="card-title t-info-header">{{$t->name}}</h6>
 							<p>Location</p>
@@ -38,5 +52,6 @@
 				</div>
 			</div>
 		@endforeach
+		@endif
 	</div>
 </div>

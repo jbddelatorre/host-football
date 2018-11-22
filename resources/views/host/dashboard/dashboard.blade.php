@@ -65,7 +65,34 @@
 
 		@include('inc.messages')
 
-		<div class="animated fadeIn dashboard-view" id="showRegisteredTournaments">
+		@foreach($tournaments as $t)
+			{{-- modal --}}
+			<div class="modal fade" id="deleteT{{$t->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document" style="transform:translateY(50%);">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        Are you sure you want to delete this tournament?
+			      </div>
+			      <div class="modal-footer">
+					<form action="/host/deletetournament/{{$t->id}}" method="POST">
+						@csrf
+						@method('DELETE')
+				        <button type="submit" class="btn btn-outline-danger">Delete</button>
+					</form>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		{{-- end modal --}}
+		@endforeach
+
+		<div class="animated fadeIn dashboard-view hide-view" id="showRegisteredTournaments">
 			@include('host.dashboard.showRegisteredTournaments')
 		</div>
 		<div class="animated fadeIn dashboard-view hide-view" id="registerTournament">
@@ -178,6 +205,9 @@ window.onload = () => {
 			n.classList.add('active-nav-link')
 		})
 	})
+
+	//Click first
+	document.querySelector('[div-link-id="showRegisteredTournaments"]').click();
 }
 
 </script>

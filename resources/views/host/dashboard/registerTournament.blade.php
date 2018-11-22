@@ -1,8 +1,10 @@
 <h2>Create a new Tournament</h2>
-	<form id="formRegisterTournament" method="POST" action="/host/registertournament" enctype="multipart/form-data">
+<div class="card">
+	<div class="card-body">
+		<form id="formRegisterTournament" method="POST" action="/host/registertournament" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
-			<div class="col-sm-7">
+			<div class="col-sm-8">
 				<div class="form-group">
 					<label for="name">Tournament Name</label>
 					<input type="text" class="form-control" id="name" name="name">
@@ -29,7 +31,7 @@
 					<input type="file" class="form-control-file" id="poster" name="poster">
 				</div>
 			</div>
-			<div class="col-sm-5">
+			<div class="col-sm-4 text-left">
 				<label for="name">Divisions</label>
 				@for($x = 10; $x <= 18; $x++)
 					<div class="checkbox">
@@ -47,3 +49,5 @@
 			</div>
 		</div>
 	</form>
+	</div>
+</div>

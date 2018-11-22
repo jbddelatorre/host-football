@@ -7,8 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ 'Host Football' }}</title>
 
+    {{-- Favicon --}}
+    <link rel="shortcut icon" href="{{{ asset('img/favicon.png') }}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -27,6 +29,7 @@
     
     {{-- WOW js --}}
     <script src="{{asset('js/wow.min.js')}}"></script>
+
     
 
     <style>
@@ -62,6 +65,10 @@
         .t-info-header {
             font-weight: 600; 
             padding-left: 12px;
+            font-size: 16px;
+         }
+         .t-info {
+            font-size: 16px;
          }
 
         .fixed-nav {

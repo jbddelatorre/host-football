@@ -19,7 +19,7 @@
     }
 
     #landingContainer {
-        height: 89vh;
+        height: 95vh;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -75,7 +75,7 @@
     }
 
     section {
-        padding: 54px 0;
+        padding: 50px 0;
     }
 
     section h2 {
@@ -89,13 +89,13 @@
     }
     #spanFootball {
         text-transform: uppercase;
-        font-size: 42px;
+        font-weight: 700;
     }
 
     /*Intro*/
     #intro {
         background-color: #1f0a2e;
-        min-height: 20vh;
+        min-height: 25vh;
         color:white;
     }
 
@@ -142,7 +142,7 @@
     <div id="landingContainer">
         <div id="landingContent" class="wow slideInUp">
             <h1><span id="spanHost">Host</span><span id="spanFootball">Football</span></h1>
-            <h3>Host a Tournament | Join a Tournament</h3>
+            <h4>Host a Tournament &middot; Join a Tournament</h4>
             @guest
                 <div id="landingButtonDiv">
                     <a class="btn btn-outline-light" href="{{ route('login') }}">Sign Up</a>
@@ -159,8 +159,8 @@
         <div class="container wow slideInRight" style="height:20vh; display: flex; justify-content: center;">
             <div class="row align-items-center justify-content-center">
                 <div class="col-sm-12 text-center">
-                    <h4 id="introH4">Start using Host Football for your next tournament.</h4>
-                    <p>Host Football is a web platform for football organizers to manage their tournaments.</p>
+                    <h4 id="introH4">Start using HostFootball for your next tournament.</h4>
+                    <p>Host Football is a web platform for football organizers to manage their tournaments</p>
                 </div>
             </div>
         </div>
@@ -168,11 +168,11 @@
 
     <section id="features">
         <div class="container">
-            <div class="row">
+{{--             <div class="row">
                 <div class="col-sm-12 text-center">
                     <h2>Features</h2>
                 </div>
-            </div>
+            </div> --}}
             <div id="featHost"class="row align-items-center wow fadeIn">
                 <div class="col-sm-5 text-center">
                     <h3 class="feat-title">Host a Tournament</h3>

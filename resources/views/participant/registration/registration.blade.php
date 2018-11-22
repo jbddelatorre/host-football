@@ -150,7 +150,7 @@
 
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button class="btn btn-primary" type="submit">Complete Registration</button>
+							<button class="btn btn-outline-primary" type="submit">Complete Registration</button>
 						</div>
 					</div>
 

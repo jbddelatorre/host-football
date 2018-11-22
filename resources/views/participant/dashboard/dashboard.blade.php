@@ -49,7 +49,7 @@
 
 		@include('inc.messages')
 
-		<div class="dashboard-view animated fadeIn" id="showFindTournaments">
+		<div class="dashboard-view hide-view animated fadeIn" id="showFindTournaments">
 			@include('participant.dashboard.showFindTournaments')
 		</div>
 		<div class="dashboard-view hide-view animated fadeIn" id="showRegisteredTournaments">
@@ -141,6 +141,9 @@
 			n.classList.add('active-nav-link')
 		})
 	})
+	
+	//Click first view
+	document.querySelector('[div-link-id="showFindTournaments"]').click();
 }
 
 </script>

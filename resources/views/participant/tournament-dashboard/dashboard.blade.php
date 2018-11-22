@@ -92,14 +92,8 @@
 		<hr>
 
 		<div class="row">
-			<div class="col-sm-6 text-left my-4">
+			<div class="col-sm-6 text-left my-2">
 				<a href="/host" class="btn btn-outline-primary">Return to Dashboard</a>
-			</div>
-			<div class="col-sm-6 text-right my-4">
-				<form method="POST" action="/host/tournamentdashboard/complete/{{$tournament->id}}">
-					@csrf
-					<button class="btn btn-outline-primary" >Complete Tournament</button>
-				</form>
 			</div>
 		</div>
 
@@ -119,9 +113,8 @@
 
 		{{-- RESTRUCTURE THIS PART - move to another file --}}
 		@foreach($tournament->subcategories as $subcat)
-
 			<div class="animated fadeIn subcat-div hide-view" data-subcat-div = {{$subcat->id}}>
-				@include('host.tournament-dashboard.fixtures');
+				@include('participant.tournament-dashboard.fixtures');
 			</div>
 		@endforeach
 	</div>
@@ -172,73 +165,6 @@
 		s.textContent = convertSubcategory(s.textContent.trim());
 	})
 
-
-	//DOM buttons
-	const editButton = document.querySelectorAll('.fixture-edit-button');
-	const submitButton = document.querySelectorAll('.fixture-submit-button');
-
-
-		//Remove disable from inputs
-		editButton.forEach(b => {
-			b.addEventListener("click", (e) => {
-				const fixture_id = e.target.attributes.getNamedItem('data-edit-fixture').value;
-				const input_A = document.querySelector(`[data-score-A-id="${fixture_id}"]`);
-				const input_B = document.querySelector(`[data-score-B-id="${fixture_id}"]`);
-
-				input_A.disabled = !input_A.disabled;
-				input_B.disabled = !input_B.disabled;
-			})
-		})
-
-		//Submit updated score input
-
-		submitButton.forEach(b => {
-			b.addEventListener("click", (e) => {
-				const fixture_id = e.target.attributes.getNamedItem('data-fixture-id').value;
-				const input_A = document.querySelector(`[data-score-A-id="${fixture_id}"]`);
-				const input_B = document.querySelector(`[data-score-B-id="${fixture_id}"]`);
-				if (input_A.disabled || input_B.disabled) {
-					return null;
-				}
-				
-				scoreA = input_A.value;
-				scoreB = input_B.value;
-				if(scoreA == "" || scoreB == "") {
-					alert("Please input scores");
-					return null;
-				}
-				
-				//AJAX CALL
-					
-				const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-				const url = `/host/tournamentdashboard/updatescore`;
-				
-				fetch(url, {
-					headers: {
-						"Content-Type": "application/json",
-						"Accept": "application/json, text-plain, */*",
-						"X-Requested-With": "XMLHttpRequest",
-						"X-CSRF-TOKEN": token
-					},
-					method: 'post',
-					credentials: "same-origin",
-					body: JSON.stringify({
-						fixture_id: fixture_id,
-						a_score: scoreA,
-						b_score: scoreB,
-					})
-				})
-				.then(response => response.json())
-				.then(data => {
-					const tournamentId = document.querySelector('#tournamentIdInfo').value;
-					window.location.href = `/host/tournamentdashboard/${tournamentId}`;
-				})
-				.catch(err => console.log(err));
-
-				input_A.disabled = true;
-				input_B.disabled = true;
-			})
-		})
 
 		//Status color
 		const status = document.querySelectorAll('.status-span');

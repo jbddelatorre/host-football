@@ -38,7 +38,9 @@
 	    font-size: 12px;
 	    line-height: 1.42857;
 	}
-
+	.hide-button {
+		display: none !important;
+	}
 
 </style>
 
@@ -47,8 +49,8 @@
 		<h2>Edit Tournament Registration</h2>
 		
 		<div class="row justify-content-end">
-			<div class="col-sm-12">
-				<a class="btn btn-success float-right" href="/participant">Return to Dashboard</a>
+			<div class="col-sm-12 my-2">
+				<a class="btn btn-outline-success float-right" href="/participant">Return to Dashboard</a>
 			</div>
 		</div>
 
@@ -106,7 +108,7 @@
 							</div>
 						</div>
 
-						<div id="playerCountData" data-players-count={{count($players)}}></div>
+						<div id="playerCountData" players-count={{count($players)}}></div>
 
 						@if($errors->has('players'))
 							<div class="alert alert-danger">
@@ -139,7 +141,9 @@
 					<div class="card-body">
 						<div class="row justify-content-center">
 							<button id="formAdd" class="button-player-fillout btn btn-outline-primary mx-2">Add Player</button>
-							<button id="formRemove" class="button-player-fillout btn btn-outline-danger mx-2">Delete</button>
+							<div class="col-sm-12 text-center hide-button" id="maxPlayers">
+								<p>Maximum of 12 players only.</p>
+							</div>
 						</div>
 					</div>
 						
@@ -171,7 +175,7 @@
 
 					<div class="card-body">
 						<div class="row justify-content-center">
-							<button class="btn btn-primary" type="submit">Edit Registration</button>
+							<button class="btn btn-outline-primary" type="submit">Edit Registration</button>
 						</div>
 					</div>
 
@@ -285,8 +289,15 @@
 			count = countname
 		}
 
-		playerCountDOM.setAttribute('data-players-count', count);
-		console.log(playerCountDOM.getAttribute('data-players-count'))
+		playerCountDOM.setAttribute('players-count', count);
+		
+		formAdd.classList.add('hide-button');
+
+		if(playerCountDOM.getAttribute('players-count') < 12) {
+			formAdd.classList.remove('hide-button')
+		} else {
+			document.querySelector('#maxPlayers').classList.remove('hide-button');
+		}
 	})
 
 }

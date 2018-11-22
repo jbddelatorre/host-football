@@ -47,6 +47,9 @@ Route::group(['middleware' => 'participant'], function() {
 	Route::get('/participant/viewregistration/{id}', 'ParticipantDashboardController@viewRegistration');
 	Route::get('/participant/editregistration/{team_id}', 'ParticipantDashboardController@editRegistration');
 	Route::delete('/participant/deleteteam/{team_id}', 'ParticipantDashboardController@deleteTeam');
+
+	Route::get('/participant/tournamentdashboard/{id}', 'ParticipantDashboardController@viewOngoing');
+	Route::get('/participant/gethistory/{id}', 'ParticipantDashboardController@getHistory');
 });
 
 Auth::routes();

@@ -4,11 +4,13 @@
 	<div class="container">
 		<h2>Edit Tournament</h2>
 		@include('inc.messages')
-		<form id="formRegisterTournament" method="POST" action="/host/submitedittournament/{{$tournament->id}}">
+		<div class="card">
+			<div class="card-body">
+				<form id="formRegisterTournament" method="POST" action="/host/submitedittournament/{{$tournament->id}}" enctype="multipart/form-data">
 			@csrf
 			<input type="text" hidden name="edit" value="edittournament">
 			<div class="row">
-				<div class="col-sm-7">
+				<div class="col-sm-8">
 					<div class="form-group">
 						<label for="name">Tournament Name</label>
 						<input type="text" class="form-control" id="name" name="name" value="{{$tournament->name}}">
@@ -39,7 +41,7 @@
 						<p>Current Tournament Image</p>
 					</div>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-4">
 					<label for="name">Divisions</label>
 					@for($x = 10; $x <= 18; $x++)
 						<div class="checkbox">
@@ -70,6 +72,8 @@
 				</div>
 			</div>
 		</form>
+			</div>
+		</div>
 	</div>
 @endsection
 

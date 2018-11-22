@@ -14,7 +14,10 @@
 			<div class="card bg-faded my-3 pt-2">
 				<div class="card-body">
 					<div class="row align-items-center">
-						<div class="col-sm-5">
+						<div class="col-sm-2">
+							<img style="width:100%; max-height:25%;" src="{{asset($t->image_path)}}" alt="Tournament poster">
+						</div>
+						<div class="col-sm-3">
 							<h6 class="card-title">{{$t->name}}</h6>
 							<h6 class="card-title">{{$t->location}}</h6>
 							<h6 class="card-title">

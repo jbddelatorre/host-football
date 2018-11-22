@@ -136,12 +136,6 @@
 										</div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-12 text-center">
-										<button class="btn btn-outline-info fixture-edit-button"  data-edit-fixture = "{{$fixture->id}}">Edit Score</button>
-										<button class="btn btn-outline-success fixture-submit-button" data-fixture-id = "{{$fixture->id}}">Update Score</button>
-									</div>
-								</div>
 							</div>
 
 							<div class="card-footer" style="padding:5px 15px;">
@@ -210,12 +204,6 @@
 												<p>{{$team_info[$fixture->b_team]['organization']}}</p>
 											</div>
 										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12 text-center">
-										<button class="btn btn-outline-info fixture-edit-button"  data-edit-fixture = "{{$fixture->id}}">Edit Score</button>
-										<button class="btn btn-outline-success fixture-submit-button" data-fixture-id = "{{$fixture->id}}">Update Score</button>
 									</div>
 								</div>
 							</div>

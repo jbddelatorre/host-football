@@ -71,7 +71,7 @@ class HostDashboardController extends Controller
 
         if($request->hasFile('poster')) {
             $ext = $request->poster->getClientOriginalExtension();
-            $request->poster->move('db-img', "$request->name"."$request->location.$ext");
+            $request->poster->move('db-img', "$request->name"."$current_id.$ext");
 
             $tournament->image_path = "db-img/$request->name"."$current_id.$ext";
         } else {
@@ -104,12 +104,12 @@ class HostDashboardController extends Controller
         $participants_tournaments = ParticipantTournament::where('tournament_id', $id);
         $fixtures = Fixture::where('tournament_id', $id);
 
-        $players->delete();
-        $teams->delete();
-        $participants_tournaments->delete();
-        $tournament_subcategories->delete();
+        //$players->delete();
+        //$teams->delete();
+        //$participants_tournaments->delete();
+        //$tournament_subcategories->delete();
         $fixtures->delete();
-        $tournament->delete();
+        //$tournament->delete();
 
         return redirect('/host')->with('success', "Successfully deleted Tournament!");
     }
@@ -203,8 +203,14 @@ class HostDashboardController extends Controller
             addGroupToTeamTable($group_A, "A");
             addGroupToTeamTable($group_B, "B");
 
-            $group_A_pairs = pairUp($group_A, []);
-            $group_B_pairs = pairUp($group_B, []);
+            $grpA = pairUp($group_A, []);
+            $grpB = pairUp($group_B, []);
+
+            shuffle($grpA);
+            shuffle($grpB);
+ 
+            $group_A_pairs = $grpA;
+            $group_B_pairs = $grpB;
 
             generateFixtures($group_A_pairs, "A", $tournament_id, $subcat);
             generateFixtures($group_B_pairs, "B", $tournament_id, $subcat);
@@ -252,7 +258,7 @@ class HostDashboardController extends Controller
 
         foreach($tournament->subcategories as $sub) {
             if(!in_array($sub->id, $request->subcategories)) {
-                return redirect('/host/edittournament/'.$id)->with('error', 'Cannot remove existing subcategories.');
+                return redirect('/host/edittournament/'.$id)->with('error', 'Cannot remove existing division.');
             }
         }
 
@@ -271,7 +277,7 @@ class HostDashboardController extends Controller
 
         if($request->hasFile('poster')) {
             $ext = $request->poster->getClientOriginalExtension();
-            $request->poster->move('db-img', "$request->name"."$request->location.$ext");
+            $request->poster->move('db-img', "$request->name"."$current_id.$ext");
 
             $tournament->image_path = "db-img/$request->name"."$current_id.$ext";
         } else {
@@ -283,8 +289,18 @@ class HostDashboardController extends Controller
 
         $arr_sub = $request->subcategories;
 
+        function checkSubcat($sub, $tournament) {
+            foreach($tournament->subcategories as $subcat) {
+                if($subcat->id == $sub) {
+                    return True;
+                }
+            }
+            return False;
+        }
+
+
         foreach($arr_sub as $sub) {
-            if(!in_array($sub, (array)$tournament->subcategories)) {
+            if(!checkSubcat($sub, $tournament)) {
                 $ts = new TournamentSubcategory;
                 $ts->tournament_id = $id;
                 $ts->subcategory_id = $sub;
