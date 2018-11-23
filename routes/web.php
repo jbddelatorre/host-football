@@ -52,11 +52,17 @@ Route::group(['middleware' => 'participant'], function() {
 	Route::get('/participant/gethistory/{id}', 'ParticipantDashboardController@getHistory');
 });
 
+Route::group(['middleware' => 'guest'], function() {
+	Auth::routes();
+});
 
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/notfound', function() {
 	return view('error.error');
 });
+
+Route::get('{any?}', function ($any) {
+    return view('error.error');
+})->where('any', '.*');
