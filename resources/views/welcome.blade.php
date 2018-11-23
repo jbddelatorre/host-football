@@ -130,6 +130,23 @@
         width: 130px;
         height: 130px;
     }
+    .feat-list {
+        width:80%;
+        margin:0 auto;
+    }
+/*    .feat-list ul {
+        list-style-image: url({{ URL::asset('img/football-list.jpg')}})
+    }*/
+
+    .feat-list li {
+        margin: 8px 0;
+        padding: 0 0 0 36px;
+        list-style: none;
+        background-image: url({{ URL::asset('img/football-list.jpg')}});
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: 20px;
+    }
 </style>
 
 @extends('layouts.appWelcome')
@@ -145,8 +162,8 @@
             <h4>Host a Tournament &middot; Join a Tournament</h4>
             @guest
                 <div id="landingButtonDiv">
-                    <a class="btn btn-outline-light" href="{{ route('login') }}">Sign Up</a>
-                    <a class="btn btn-outline-light" href="{{ route('register') }}">Log In</a>
+                    <a class="btn btn-outline-light" href="{{ route('register') }}">Sign Up</a>
+                    <a class="btn btn-outline-light" href="{{ route('login') }}">Log In</a>
                 </div>
             @else
             @endguest
@@ -177,6 +194,15 @@
                 <div class="col-sm-5 text-center">
                     <h3 class="feat-title">Host a Tournament</h3>
                     <p>Hosting a tournament has never been easier</p>
+                    <div class="feat-list">
+                        <ul>
+                            <li>Set-up and register a tournament.</li>
+                            <li>8 Teams per division from Under-10 to Men's Open.</li>
+                            <li>Easily accept and reject team registrations.</li>
+                            <li>Auto-generate fixtures for each division</li>
+                            <li>Keep track of fixture results.</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-sm-7 feature-image">
                     <img src="{{asset('img/host-feat.jpg')}}" alt="host feature" style="width:100%;">
@@ -195,6 +221,14 @@
                 <div class="col-sm-5 text-center">
                     <h3 class="feat-title">Join a Tournament</h3>
                     <p>Register and join tournaments.</p>
+                    <div class="feat-list">
+                        <ul>
+                            <li>Find and view available tournaments</li>
+                            <li>Register your teams and players</li>
+                            <li>Be informed of your registration status</li>
+                            <li>Be updated with fixture results during the tournament</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

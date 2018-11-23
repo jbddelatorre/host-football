@@ -176,7 +176,6 @@ window.onload = () => {
 	const views = document.querySelectorAll('.dashboard-view');
 
 	tabs.forEach(t => {
-
 		t.addEventListener("click", () => {
 
 			const link_id = t.getAttribute('div-link-id')
@@ -185,9 +184,12 @@ window.onload = () => {
 			views.forEach(v => {
 				v.classList.add('hide-view');
 			})
-			current_view.classList.remove('hide-view')
+			current_view.classList.remove('hide-view');
+
+			messageAnimate();
 		})
 	})
+
 
 
 	// Show Registered Tournaments View Script Functionalities

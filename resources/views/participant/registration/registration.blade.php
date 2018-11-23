@@ -25,13 +25,12 @@
 	<div class="container">
 		<h2>Tournament Registration</h2>
 
-		<div class="row justify-content-end">
-			<div class="col-sm-12">
-				<a class="btn btn-success float-right" href="/participant">Return to Dashboard</a>
+		<div class="row justify-content-end my-2">
+			<div class="col-sm-12 text-right">
+				<a class="btn btn-outline-success" href="/participant">Return to Dashboard</a>
 			</div>
 		</div>
 		
-		@include('inc.messages')
 		<form action="/participant/registration/{{$id}}" method="POST">
 			@csrf
 		<div class="row">
@@ -39,15 +38,25 @@
 			<div class="col sm-12">
 				<div class="card bg-faded my-3 pt-2">
 					<div class="card-body">
-						<h6>{{$tournament->name}}</h6>
-						<h6>{{$tournament->location}}</h6>
-						<h6>
-							@if($tournament->date_start == $tournament->date_end)
-								{{$tournament->date_start}}
-							@else
-								{{$tournament->date_start}} to {{ $tournament->date_end }}
-							@endif
-						</h6>
+						<div class="row">
+							<div class="col-sm-3">
+								<img style="width:100%; max-height:25%;" src="{{ asset($tournament->image_path) }}" alt="Tournament poster">
+							</div>
+							<div class="col-sm-9">
+								<p>Tournament Name</p>
+								<h6 class="card-title t-info-header">{{$tournament->name}}</h6>
+								<p>Location</p>
+								<h6 class="card-title t-info-header">{{$tournament->location}}</h6>
+								<p>Date</p>
+								<h6 class="card-title t-info-header">
+									@if($tournament->date_start == $tournament->date_end)
+										{{$tournament->date_start}}
+									@else
+										{{$tournament->date_start}} to {{ $tournament->date_end }}
+									@endif
+								</h6>	
+							</div>
+						</div>
 					</div>
 
 					<div class="card-body">
@@ -75,7 +84,6 @@
 					</div>
 					
 					<div class="card-body" id="playerFillout">
-						<h6>Team Members</h6>
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-7">
@@ -130,7 +138,10 @@
 									<label for="coachName">Name of Coach</label>
 								</div>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="coachName" name="coachname">
+									<input type="text" class="form-control {{$errors->has('coachname') ? 'is-invalid' : ''}}" id="coachName" name="coachname">
+									<div class="invalid-feedback">
+										{{$errors->first('coachname')}}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -140,7 +151,10 @@
 									<label for="coachMobile">Mobile Number</label>
 								</div>
 								<div class="col-sm-6">
-									<input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" class="form-control" id="coachMobile" name="coachmobile">
+									<input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" class="form-control {{$errors->has('coachmobile') ? 'is-invalid' : ''}}" id="coachMobile" name="coachmobile">
+									<div class="invalid-feedback">
+										{{$errors->first('coachmobile')}}
+									</div>
 									<small class="form-text text-muted">Format: 0917-123-4567</small>
 								</div>
 							</div>

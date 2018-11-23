@@ -10,7 +10,7 @@
     <title>{{ 'Host Football' }}</title>
 
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{{ asset('img/favicon.png') }}}">
+    <link rel="shortcut icon" href="{{{ asset('img/favicon.ico') }}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -30,7 +30,8 @@
     {{-- WOW js --}}
     <script src="{{asset('js/wow.min.js')}}"></script>
 
-    
+    {{-- error js --}}
+    <script src="{{asset('js/message.js')}}"></script>
 
     <style>
         #app {
@@ -89,6 +90,10 @@
             color:white;
             letter-spacing: 2px;
             font-size: 18px;
+        }
+        .alert {
+            transition: all 1.5s ease-out;
+            text-align: center;
         }
 
         footer {

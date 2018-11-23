@@ -76,6 +76,11 @@ class ParticipantDashboardController extends Controller
 
     function registrationPage($id) {
     	$tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
     	$subcats = TournamentSubcategory::where('tournament_id', $id)->get();
     	return view('participant.registration.registration', compact('tournament', 'subcats', 'id'));
     }
@@ -191,6 +196,11 @@ class ParticipantDashboardController extends Controller
     function viewRegistration($id) {
         $current_id = auth()->user()->id;
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
         $teams = Team::where('user_id', $current_id)->where('tournament_id', $id)->get();
         $organization = Auth::user()->organization;
         return view('participant.registration.viewregistration', compact('teams', 'organization', 'tournament'));
@@ -198,14 +208,25 @@ class ParticipantDashboardController extends Controller
 
     function editRegistration($team_id) {
         $team = Team::find($team_id);
+
+        if($team == null) {
+            return redirect('/notfound');
+        }
+
         $players = Player::where('team_id', $team_id)->get();
         $tournament = Tournament::find($team->tournament_id);
+
 
         return view('participant.registration.editregistration', compact('team','players', 'tournament'));
     }
 
     function deleteTeam(Request $request, $team_id) {
         $team = Team::find($team_id);
+
+        if($team == null) {
+            return redirect('/notfound');
+        }
+
         $players = Player::where('team_id', $team_id);
 
         $team->delete();
@@ -216,6 +237,11 @@ class ParticipantDashboardController extends Controller
 
     function viewOngoing($id) {
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
         $teams = Team::where('tournament_id', $id)->get();
         $team_info = [];
 

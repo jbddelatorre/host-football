@@ -52,6 +52,11 @@ Route::group(['middleware' => 'participant'], function() {
 	Route::get('/participant/gethistory/{id}', 'ParticipantDashboardController@getHistory');
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/notfound', function() {
+	return view('error.error');
+});

@@ -18,9 +18,12 @@
 							<img style="width:100%; max-height:25%;" src="{{asset($t->image_path)}}" alt="Tournament poster">
 						</div>
 						<div class="col-sm-3">
-							<h6 class="card-title">{{$t->name}}</h6>
-							<h6 class="card-title">{{$t->location}}</h6>
-							<h6 class="card-title">
+							<p>Tournament Name</p>
+							<h6 class="card-title t-info-header">{{$t->name}}</h6>
+							<p>Location</p>
+							<h6 class="card-title t-info-header">{{$t->location}}</h6>
+							<p>Date</p>
+							<h6 class="card-title t-info-header">
 								@if($t->date_start == $t->date_end)
 									{{$t->date_start}}
 								@else

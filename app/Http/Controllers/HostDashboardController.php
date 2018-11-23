@@ -98,6 +98,11 @@ class HostDashboardController extends Controller
 
     function deleteTournament($id) {
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
         $tournament_subcategories = TournamentSubcategory::where('tournament_id', $id);
         $teams = Team::where('tournament_id', $id);
         $players = Player::where('tournament_id', $id);
@@ -128,6 +133,10 @@ class HostDashboardController extends Controller
 
     function initializeTournament($id) {
         $query_subcat = TournamentSubcategory::where('tournament_id', $id)->get();
+
+        if($query_subcat == null) {
+            return redirect('/notfound');
+        }
 
         $subcategories = [];
 
@@ -225,8 +234,14 @@ class HostDashboardController extends Controller
 
 
     function viewTeamRegistration($id, $subcat_id) {
-        $teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat_id)->get();
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
+        $teams = Team::where('tournament_id', $id)->where('subcategory_id', $subcat_id)->get();
+
         
         return view('host.dashboard.teamDetails', compact('teams', 'subcat_id', 'tournament'));
     }
@@ -234,6 +249,11 @@ class HostDashboardController extends Controller
 
     function editTournament($id) {
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
+
         return view('host.dashboard.edittournament', compact('tournament'));
     }
 
@@ -255,6 +275,10 @@ class HostDashboardController extends Controller
 
 
         $tournament = Tournament::find($id);
+
+        if($tournament == null) {
+            return redirect('/notfound');
+        }
 
         foreach($tournament->subcategories as $sub) {
             if(!in_array($sub->id, $request->subcategories)) {

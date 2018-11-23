@@ -126,6 +126,8 @@
 				v.classList.add('hide-view');
 			})
 			current_view.classList.remove('hide-view')
+
+			messageAnimate();
 		})
 	})
 
