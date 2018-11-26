@@ -5,7 +5,7 @@ const messageAnimate = () => {
 		if(alert != null) {
 			alert.textContent = "";
 		}
-	}, 1299);
+	}, 3299);
 	setTimeout(() => {
 		if(alert != null) {
 			alert.style.opacity = 0;
@@ -13,11 +13,11 @@ const messageAnimate = () => {
 			alert.style.padding = 0;
 			alert.style.height = 0;
 		}
-	}, 1300);
+	}, 3300);
 
 	setTimeout(() => {
 		if(alert != null) {
 			alert.style.display = "none";
 		}
-	}, 2800);
+	}, 4800);
 }
