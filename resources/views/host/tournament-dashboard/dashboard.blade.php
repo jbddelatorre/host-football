@@ -318,8 +318,6 @@
 
 				const grpdoms = document.querySelectorAll('.gv');
 
-				console.log(grpdoms)
-
 				grpdoms.forEach(gd => {
 					gd.classList.add('hide-view');
 				})

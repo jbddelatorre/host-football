@@ -66,6 +66,30 @@
 		text-align: center;
 	}
 
+	/*Group view change*/
+	.tournament-table-div .group-h4 {
+		transition: all .5s ease-out;
+		width: 70%;
+		padding: 8px;
+		margin: 0 auto;
+		color:darkgreen;
+		border: 1px solid green;
+	}
+
+	.group-active {
+		background-color: #8DC26F;
+		color:white !important;
+		letter-spacing: 0.5px;
+	}
+
+	.tournament-table-div .group-h4:hover {
+		text-decoration: underline !important;
+		letter-spacing: 1px;
+		cursor: pointer;
+		background-color: #d4efc5;
+		color:darkgreen !important;
+	}
+
 
 </style>
 
@@ -200,6 +224,36 @@
 		})
 		
 		document.querySelector('.subcat-card-view').click();
+
+				//Group Display
+
+		const group = document.querySelectorAll('.group-h4')
+
+		group.forEach(g => {
+			g.addEventListener("click", (e) => {
+				group.forEach(gg => {
+					gg.classList.remove('group-active');
+				})
+				const grp = g.getAttribute('data-group-view');
+
+				document.querySelectorAll(`.group-h4-${grp}`).forEach(b => {
+					b.classList.add('group-active');
+				})
+
+
+				const grp_dom = document.querySelectorAll(`.groupview-${grp}`);
+
+				const grpdoms = document.querySelectorAll('.gv');
+
+				grpdoms.forEach(gd => {
+					gd.classList.add('hide-view');
+				})
+
+				grp_dom.forEach(gd => {
+					gd.classList.remove('hide-view');
+				})
+			})
+		})
 }
 
 </script>
