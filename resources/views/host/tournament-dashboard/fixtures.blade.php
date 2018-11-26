@@ -86,14 +86,14 @@
 
 	<div class="col-sm-12 my-4">
 		<div class="row">
-			<div class="col-sm-6 text-center"><h4>Group A</h4></div>
-			<div class="col-sm-6 text-center"><h4>Group B</h4></div>
+			<div class="col-sm-6 text-center"><h4 class="group-h4 group-h4-A" data-group-view="A">Group A</h4></div>
+			<div class="col-sm-6 text-center"><h4 class="group-h4 group-h4-B" data-group-view="B">Group B</h4></div>
 		</div>
 	</div>
 
-	<div class="col-sm-12">
+	<div class="col-sm-12 gv groupview-A hide-view">
 		<div class="row justify-content-center">
-			<h5>Group A</h5>
+			<h5>Group A Matches</h5>
 		</div>
 		<div class="row">
 			@foreach($subcat->fixtures as $fixture)
@@ -167,9 +167,9 @@
 	</div>
 
 	{{-- GROUP B - JUST COPY GROUP A WHEN FINISHED --}}
-	<div class="col-sm-12">
+	<div class="col-sm-12 gv groupview-B hide-view">
 		<div class="row justify-content-center">
-			<h5>Group B</h5>
+			<h5>Group B Matches</h5>
 		</div>
 		<div class="row">
 			@foreach($subcat->fixtures as $fixture)
