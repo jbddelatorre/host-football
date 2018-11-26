@@ -109,12 +109,12 @@ class HostDashboardController extends Controller
         $participants_tournaments = ParticipantTournament::where('tournament_id', $id);
         $fixtures = Fixture::where('tournament_id', $id);
 
-        //$players->delete();
-        //$teams->delete();
-        //$participants_tournaments->delete();
-        //$tournament_subcategories->delete();
+        $players->delete();
+        $teams->delete();
+        $participants_tournaments->delete();
+        $tournament_subcategories->delete();
         $fixtures->delete();
-        //$tournament->delete();
+        $tournament->delete();
 
         return redirect('/host')->with('success', "Successfully deleted Tournament!");
     }
