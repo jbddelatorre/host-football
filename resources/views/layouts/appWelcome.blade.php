@@ -10,26 +10,26 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ secure_asset('js/app.js') }}" defer></script>
 
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{{ asset('img/favicon.ico') }}}">
+    <link rel="shortcut icon" href="{{{ secure_asset('img/favicon.ico') }}}">
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
 
     {{-- Font awesome --}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     {{-- Animate.css --}}
-    <link rel="stylesheet" href="{{asset('css/animate.css')}}">
+    <link rel="stylesheet" href="{{secure_asset('css/animate.css')}}">
     
     {{-- WOW js --}}
-    <script src="{{asset('js/wow.min.js')}}"></script>
+    <script src="{{secure_asset('js/wow.min.js')}}"></script>
     
 
     <style>

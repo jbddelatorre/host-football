@@ -1,6 +1,6 @@
 <style>
     #landingImage {
-        background-image: url({{ URL::asset('img/bg2.jpg')}});
+        background-image: url({{ URL::secure_asset('img/bg2.jpg')}});
         /*background-size: contain;*/
         width:100%;
         height:95vh;
@@ -110,7 +110,7 @@
 
     /*Contact*/
     #contact {
-        background-image: url({{ URL::asset('img/bg1.jpg')}});
+        background-image: url({{ URL::secure_asset('img/bg1.jpg')}});
         background-size: 100%;
         background-repeat: no-repeat; 
         opacity: 0.95; 
@@ -135,14 +135,14 @@
         margin:0 auto;
     }
 /*    .feat-list ul {
-        list-style-image: url({{ URL::asset('img/football-list.jpg')}})
+        list-style-image: url({{ URL::secure_asset('img/football-list.jpg')}})
     }*/
 
     .feat-list li {
         margin: 8px 0;
         padding: 0 0 0 36px;
         list-style: none;
-        background-image: url({{ URL::asset('img/football-list.jpg')}});
+        background-image: url({{ URL::secure_asset('img/football-list.jpg')}});
         background-repeat: no-repeat;
         background-position: left center;
         background-size: 20px;
@@ -205,17 +205,17 @@
                     </div>
                 </div>
                 <div class="col-sm-7 feature-image">
-                    <img src="{{asset('img/host-feat.jpg')}}" alt="host feature" style="width:100%;">
+                    <img src="{{secure_asset('img/host-feat.jpg')}}" alt="host feature" style="width:100%;">
                     <div class="hover-info">
-                        <img src="{{asset('img/host-feat-2.jpg')}}" alt="host feature" style="width:100%;">
+                        <img src="{{secure_asset('img/host-feat-2.jpg')}}" alt="host feature" style="width:100%;">
                     </div>
                 </div>
             </div>
             <div id="featPart"class="row align-items-center wow fadeIn">
                 <div id="participantFeatureImage" class="col-sm-7 feature-image">
-                    <img src="{{asset('img/part-feat.jpg')}}" alt="host feature" style="width:100%;">
+                    <img src="{{secure_asset('img/part-feat.jpg')}}" alt="host feature" style="width:100%;">
                     <div class="hover-info">
-                        <img src="{{asset('img/part-feat-2.jpg')}}" alt="host feature" style="width:100%;">
+                        <img src="{{secure_asset('img/part-feat-2.jpg')}}" alt="host feature" style="width:100%;">
                     </div>
                 </div>
                 <div class="col-sm-5 text-center">
@@ -251,17 +251,17 @@
                     <div class="row">
                         <div class="col-sm-4 wow slideInDown">
                             <h3>Save time</h3>
-                            <img src="{{asset('img/alarm-clock.png')}}" alt="" style="width:30%;">
+                            <img src="{{secure_asset('img/alarm-clock.png')}}" alt="" style="width:30%;">
                             <p>Save time and effort from registration to tournament day.</p>
                         </div>
                         <div class="col-sm-4 wow slideInDown">
                             <h3>Quick and Easy</h3>
-                            <img src="{{asset('img/running.png')}}" alt="" style="width:30%;">
+                            <img src="{{secure_asset('img/running.png')}}" alt="" style="width:30%;">
                             <p>No need to manually tally scores, Host Football can do it for you.</p>
                         </div>
                         <div class="col-sm-4 wow slideInDown">
                             <h3>Be more efficient</h3>
-                            <img src="{{asset('img/production.png')}}" alt="" style="width:30%;">
+                            <img src="{{secure_asset('img/production.png')}}" alt="" style="width:30%;">
                             <p>Make the most of your time and let us handle organization.</p>
                         </div>
                     </div>
@@ -285,22 +285,22 @@
             </div>
             <div class="row my-2 wow fadeInUpBig">
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client1.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client1.png')}}" alt="">
                 </div>
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client2.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client2.png')}}" alt="">
                 </div>
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client3.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client3.png')}}" alt="">
                 </div>
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client4.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client4.png')}}" alt="">
                 </div>
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client5.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client5.png')}}" alt="">
                 </div>
                 <div class="col-sm-3 text-center my-4">
-                    <img class="client-image" src="{{asset('img/client6.png')}}" alt="">
+                    <img class="client-image" src="{{secure_asset('img/client6.png')}}" alt="">
                 </div>
             </div>
         </div>
